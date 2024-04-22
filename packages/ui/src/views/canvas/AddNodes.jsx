@@ -139,9 +139,31 @@ const AddNodes = ({ nodesData, node }) => {
         const taggedNodes = groupByTags(nodes, newTabValue)
         const accordianCategories = {}
         const result = taggedNodes.reduce(function (r, a) {
-            r[a.category] = r[a.category] || []
-            r[a.category].push(a)
-            accordianCategories[a.category] = isFilter ? true : false
+            // Exclure les catégories spécifiques que vous ne voulez pas afficher
+            const excludedCategories = [
+                'Agents',
+                'Cache',
+                'Chains',
+                'Chat Models',
+                'Document Loaders',
+                'Embeddings',
+                'LLMs',
+                'Memory',
+                'Moderation',
+                'Output Parsers',
+                'Prompts',
+                'Record Manager',
+                'Retrievers',
+                'Text Splitters',
+                'Tools',
+                'Utilities',
+                'Vector Stores'
+            ]
+            if (!excludedCategories.includes(a.category)) {
+                r[a.category] = r[a.category] || []
+                r[a.category].push(a)
+                accordianCategories[a.category] = isFilter ? true : false
+            }
             return r
         }, Object.create(null))
         setNodes(result)

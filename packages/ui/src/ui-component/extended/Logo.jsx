@@ -1,5 +1,5 @@
-import logo from '@/assets/images/flowise_logo.png'
-import logoDark from '@/assets/images/flowise_logo_dark.png'
+import logo from '@/assets/images/FocusLogo.png'
+import logoDark from '@/assets/images/FocusLogo.png'
 
 import { useSelector } from 'react-redux'
 

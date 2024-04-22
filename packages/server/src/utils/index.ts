@@ -958,17 +958,7 @@ export const findAvailableConfigs = (reactFlowNodes: IReactFlowNode[], component
  */
 export const isFlowValidForStream = (reactFlowNodes: IReactFlowNode[], endingNodeData: INodeData) => {
     const streamAvailableLLMs = {
-        'Chat Models': [
-            'azureChatOpenAI',
-            'chatOpenAI',
-            'chatOpenAI_LlamaIndex',
-            'chatAnthropic',
-            'chatAnthropic_LlamaIndex',
-            'chatOllama',
-            'awsChatBedrock',
-            'chatMistralAI',
-            'groqChat'
-        ],
+        'Chat Models': ['azureChatOpenAI', 'groqChat'],
         LLMs: ['azureOpenAI', 'openAI', 'ollama']
     }
 

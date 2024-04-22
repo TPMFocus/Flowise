@@ -114,6 +114,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                         if (speechToTextResult) {
                             incomingInput.question = speechToTextResult
                         }
+                        console.log("Message de l'utilisateur :", incomingInput.question)
                     }
                 }
             }
@@ -215,14 +216,14 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                 if (!isEndingNode) {
                     if (
                         endingNodeData &&
-                        endingNodeData.category !== 'Chains' &&
+                        endingNodeData.category !== 'Main Nodes' &&
                         endingNodeData.category !== 'Agents' &&
                         endingNodeData.category !== 'Engine'
                     ) {
                         return {
                             executionError: true,
                             status: 500,
-                            msg: `Ending node must be either a Chain or Agent`
+                            msg: `Ending node must be either a Chainnnnn or Agent`
                         }
                     }
 

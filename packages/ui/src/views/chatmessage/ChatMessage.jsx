@@ -73,7 +73,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
     const [loading, setLoading] = useState(false)
     const [messages, setMessages] = useState([
         {
-            message: 'Hi there! How can I help?',
+            message: 'Hi Elyess! How can I help?',
             type: 'apiMessage'
         }
     ])
@@ -377,7 +377,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         }
 
         let input = userInput
-
+        console.log('Form submitted with input:', userInput)
         if (promptStarterInput !== undefined && promptStarterInput.trim() !== '') input = promptStarterInput
 
         setLoading(true)
@@ -1068,7 +1068,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                             onKeyDown={handleEnter}
                             id='userInput'
                             name='userInput'
-                            placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
+                            placeholder={loading ? 'Waiting for response...' : 'Type your questionnnn...'}
                             value={userInput}
                             onChange={onChange}
                             multiline={true}

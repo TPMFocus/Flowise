@@ -6,8 +6,6 @@ import { ICommonObject, INode, INodeData, INodeParams, PromptTemplate } from '..
 import { getBaseClasses, getCredentialData, getCredentialParam } from '../../../src/utils'
 import { ConsoleCallbackHandler, CustomChainHandler, additionalCallbacks } from '../../../src/handler'
 import { LoadPyodide, finalSystemPrompt, systemPrompt } from './core'
-import { checkInputs, Moderation } from '../../moderation/Moderation'
-import { formatResponse } from '../../outputparsers/OutputParserHelpers'
 
 class Airtable_Agents implements INode {
     label: string
@@ -22,65 +20,37 @@ class Airtable_Agents implements INode {
     inputs: INodeParams[]
 
     constructor() {
-        this.label = 'Airtable Agent'
-        this.name = 'airtableAgent'
+        this.label = 'Test Strategy'
+        this.name = 'teststrategy'
         this.version = 2.0
-        this.type = 'AgentExecutor'
-        this.category = 'Agents'
+        this.type = 'Test Strategy'
+        this.category = 'Main Nodes'
         this.icon = 'airtable.svg'
-        this.description = 'Agent used to to answer queries on Airtable table'
+        this.description =
+            'La stratégie de test cherche à minimiser les erreurs et à optimiser l`efficacité pour garantir la qualité du produit logiciel'
         this.baseClasses = [this.type, ...getBaseClasses(AgentExecutor)]
-        this.credential = {
-            label: 'Connect Credential',
-            name: 'credential',
-            type: 'credential',
-            credentialNames: ['airtableApi']
-        }
         this.inputs = [
             {
-                label: 'Language Model',
-                name: 'model',
-                type: 'BaseLanguageModel'
+                label: 'Cache',
+                name: 'cache',
+                type: 'BaseCache',
+                optional: true
             },
             {
-                label: 'Base Id',
-                name: 'baseId',
+                label: 'Title',
+                name: 'titleId',
                 type: 'string',
                 placeholder: 'app11RobdGoX0YNsC',
                 description:
                     'If your table URL looks like: https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYICO/viw9UrP77Id0CE4ee, app11RovdGoX0YNsC is the base id'
             },
             {
-                label: 'Table Id',
-                name: 'tableId',
+                label: 'Description',
+                name: 'descriptionId',
                 type: 'string',
                 placeholder: 'tblJdmvbrgizbYICO',
                 description:
                     'If your table URL looks like: https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYICO/viw9UrP77Id0CE4ee, tblJdmvbrgizbYICO is the table id'
-            },
-            {
-                label: 'Return All',
-                name: 'returnAll',
-                type: 'boolean',
-                default: true,
-                additionalParams: true,
-                description: 'If all results should be returned or only up to a given limit'
-            },
-            {
-                label: 'Limit',
-                name: 'limit',
-                type: 'number',
-                default: 100,
-                additionalParams: true,
-                description: 'Number of results to return'
-            },
-            {
-                label: 'Input Moderation',
-                description: 'Detect text that could generate harmful output and prevent it from being sent to the language model',
-                name: 'inputModeration',
-                type: 'Moderation',
-                optional: true,
-                list: true
             }
         ]
     }
@@ -92,22 +62,10 @@ class Airtable_Agents implements INode {
 
     async run(nodeData: INodeData, input: string, options: ICommonObject): Promise<string | object> {
         const model = nodeData.inputs?.model as BaseLanguageModel
-        const baseId = nodeData.inputs?.baseId as string
-        const tableId = nodeData.inputs?.tableId as string
+        const titleId = nodeData.inputs?.titleId as string
+        const descriptionId = nodeData.inputs?.descriptionId as string
         const returnAll = nodeData.inputs?.returnAll as boolean
         const limit = nodeData.inputs?.limit as string
-        const moderations = nodeData.inputs?.inputModeration as Moderation[]
-
-        if (moderations && moderations.length > 0) {
-            try {
-                // Use the output of the moderation chain as input for the Vectara chain
-                input = await checkInputs(moderations, input)
-            } catch (e) {
-                await new Promise((resolve) => setTimeout(resolve, 500))
-                //streamResponse(options.socketIO && options.socketIOClientId, e.message, options.socketIO, options.socketIOClientId)
-                return formatResponse(e.message)
-            }
-        }
 
         const credentialData = await getCredentialData(nodeData.credential ?? '', options)
         const accessToken = getCredentialParam('accessToken', credentialData, nodeData)
@@ -115,9 +73,9 @@ class Airtable_Agents implements INode {
         let airtableData: ICommonObject[] = []
 
         if (returnAll) {
-            airtableData = await loadAll(baseId, tableId, accessToken)
+            airtableData = await loadAll(titleId, descriptionId, accessToken)
         } else {
-            airtableData = await loadLimit(limit ? parseInt(limit, 10) : 100, baseId, tableId, accessToken)
+            airtableData = await loadLimit(limit ? parseInt(limit, 10) : 100, titleId, descriptionId, accessToken)
         }
 
         let base64String = Buffer.from(JSON.stringify(airtableData)).toString('base64')
@@ -229,13 +187,13 @@ const fetchAirtableData = async (url: string, params: ICommonObject, accessToken
     }
 }
 
-const loadAll = async (baseId: string, tableId: string, accessToken: string): Promise<ICommonObject[]> => {
+const loadAll = async (titleId: string, descriptionId: string, accessToken: string): Promise<ICommonObject[]> => {
     const params: ICommonObject = { pageSize: 100 }
     let data: AirtableLoaderResponse
     let returnPages: AirtableLoaderPage[] = []
 
     do {
-        data = await fetchAirtableData(`https://api.airtable.com/v0/${baseId}/${tableId}`, params, accessToken)
+        data = await fetchAirtableData(`https://api.airtable.com/v0/${titleId}/${descriptionId}`, params, accessToken)
         returnPages.push.apply(returnPages, data.records)
         params.offset = data.offset
     } while (data.offset !== undefined)
@@ -243,9 +201,9 @@ const loadAll = async (baseId: string, tableId: string, accessToken: string): Pr
     return data.records.map((page) => page.fields)
 }
 
-const loadLimit = async (limit: number, baseId: string, tableId: string, accessToken: string): Promise<ICommonObject[]> => {
+const loadLimit = async (limit: number, titleId: string, descriptionId: string, accessToken: string): Promise<ICommonObject[]> => {
     const params = { maxRecords: limit }
-    const data = await fetchAirtableData(`https://api.airtable.com/v0/${baseId}/${tableId}`, params, accessToken)
+    const data = await fetchAirtableData(`https://api.airtable.com/v0/${titleId}/${descriptionId}`, params, accessToken)
     if (data.records.length === 0) {
         return []
     }

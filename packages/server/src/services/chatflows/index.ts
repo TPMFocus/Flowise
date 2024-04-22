@@ -70,14 +70,14 @@ const checkIfChatflowIsValidForStreaming = async (chatflowId: string): Promise<a
             if (!isEndingNode) {
                 if (
                     endingNodeData &&
-                    endingNodeData.category !== 'Chains' &&
-                    endingNodeData.category !== 'Agents' &&
-                    endingNodeData.category !== 'Engine'
+                    endingNodeData.category !== 'Main Nodes' &&
+                    endingNodeData.category !== 'Design Nodes' &&
+                    endingNodeData.category !== 'Test Cases'
                 ) {
                     return {
                         executionError: true,
                         status: 500,
-                        msg: `Ending node must be either a Chain or Agent`
+                        msg: `Ending node must be either a Main Nodes or Design Nodes`
                     }
                 }
             }
