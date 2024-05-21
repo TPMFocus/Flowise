@@ -1,8 +1,6 @@
-import { INode, INodeData, INodeParams } from '../../../src/Interface'
-import { TextSplitter } from 'langchain/text_splitter'
-import { GitbookLoader } from 'langchain/document_loaders/web/gitbook'
+import { INode, INodeParams } from '../../../src/Interface'
 
-class Gitbook_DocumentLoaders implements INode {
+class Node_DocumentLoaders implements INode {
     label: string
     name: string
     version: number
@@ -14,36 +12,36 @@ class Gitbook_DocumentLoaders implements INode {
     inputs?: INodeParams[]
 
     constructor() {
-        this.label = 'Test Plan'
-        this.name = 'testplan'
+        this.label = 'Just a node'
+        this.name = 'NodeName'
         this.version = 1.0
-        this.type = 'Test Plan'
+        this.type = 'Node Type'
         this.icon = 'gitbook.svg'
         this.category = 'Main Nodes'
-        this.description = `Placeholder for test plan description`
+        this.description = `Placeholder for a new node`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Test Phase',
+                label: 'Node Input 1',
                 name: 'testPlan_input',
                 type: 'TestPhase',
                 description: 'URL of the Gitbook page to load.',
                 optional: true
             },
             {
-                label: 'Title',
+                label: 'Node Input 2',
                 name: 'title',
                 type: 'string',
                 description: 'Name identifying the test plan.'
             },
             {
-                label: 'Description',
+                label: 'Node Input 3',
                 name: 'description',
                 type: 'string',
                 description: 'Overview of the test plan, detailing scope, resources, schedule, and testing phases.'
             },
             {
-                label: 'Date of Execution',
+                label: 'Node Input 4',
                 name: 'dateOfExecution',
                 type: 'string',
                 description: 'Date when the test case was last executed.',
@@ -51,7 +49,7 @@ class Gitbook_DocumentLoaders implements INode {
                 additionalParams: true
             },
             {
-                label: 'Estimation',
+                label: 'Node Input 5',
                 name: 'estimation',
                 type: 'string',
                 description: 'Anticipated time required for test execution.',
@@ -59,7 +57,7 @@ class Gitbook_DocumentLoaders implements INode {
                 additionalParams: true
             },
             {
-                label: 'Risk Assessment',
+                label: 'Node Input 6',
                 name: 'riskAssessment',
                 type: 'string',
                 description: 'Reference to a risk assessment document (optional).',
@@ -67,7 +65,7 @@ class Gitbook_DocumentLoaders implements INode {
                 additionalParams: true
             },
             {
-                label: 'Data Requirements',
+                label: 'Node Input 7',
                 name: 'dataRequirements',
                 type: 'string',
                 description: 'Specific data needed for each testing phase.',
@@ -76,33 +74,8 @@ class Gitbook_DocumentLoaders implements INode {
             }
         ]
     }
-    async init(nodeData: INodeData): Promise<any> {
-        const webPath = nodeData.inputs?.webPath as string
-        const shouldLoadAllPaths = nodeData.inputs?.shouldLoadAllPaths as boolean
-        const textSplitter = nodeData.inputs?.textSplitter as TextSplitter
-        const metadata = nodeData.inputs?.metadata
-
-        const loader = shouldLoadAllPaths ? new GitbookLoader(webPath, { shouldLoadAllPaths }) : new GitbookLoader(webPath)
-
-        const docs = textSplitter ? await loader.loadAndSplit() : await loader.load()
-
-        if (metadata) {
-            const parsedMetadata = typeof metadata === 'object' ? metadata : JSON.parse(metadata)
-            return docs.map((doc) => {
-                return {
-                    ...doc,
-                    metadata: {
-                        ...doc.metadata,
-                        ...parsedMetadata
-                    }
-                }
-            })
-        }
-
-        return docs
-    }
 }
 
 module.exports = {
-    nodeClass: Gitbook_DocumentLoaders
+    nodeClass: Node_DocumentLoaders
 }

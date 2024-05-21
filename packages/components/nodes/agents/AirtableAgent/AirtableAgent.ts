@@ -31,26 +31,22 @@ class Airtable_Agents implements INode {
         this.baseClasses = [this.type, ...getBaseClasses(AgentExecutor)]
         this.inputs = [
             {
-                label: 'Cache',
-                name: 'cache',
-                type: 'BaseCache',
-                optional: true
-            },
-            {
                 label: 'Title',
                 name: 'titleId',
                 type: 'string',
-                placeholder: 'app11RobdGoX0YNsC',
-                description:
-                    'If your table URL looks like: https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYICO/viw9UrP77Id0CE4ee, app11RovdGoX0YNsC is the base id'
+                description: 'Title for the test strategy in question'
             },
             {
                 label: 'Description',
                 name: 'descriptionId',
                 type: 'string',
-                placeholder: 'tblJdmvbrgizbYICO',
-                description:
-                    'If your table URL looks like: https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYICO/viw9UrP77Id0CE4ee, tblJdmvbrgizbYICO is the table id'
+                description: 'Description of said test strategy'
+            },
+            {
+                label: 'Data Considerations',
+                name: 'dataConsiderations',
+                type: 'file',
+                description: 'Provide the data considerations for said test strategy'
             }
         ]
     }

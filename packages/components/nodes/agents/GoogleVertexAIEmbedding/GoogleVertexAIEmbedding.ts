@@ -45,7 +45,9 @@ class GoogleVertexAIEmbedding_Embeddings implements INode {
                 name: 'exitCriteria',
                 type: 'string',
                 placeholder: 'List of items to be verified during testing',
-                description: 'Mandatory field. List of items to be verified during testing.'
+                description: 'Mandatory field. List of items to be verified during testing.',
+                optional: true,
+                additionalParams: true
             }
         ]
     }
