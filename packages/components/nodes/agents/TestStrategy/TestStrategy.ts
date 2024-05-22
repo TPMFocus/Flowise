@@ -16,7 +16,7 @@ class TestStrategy_Documentation implements INode {
         this.name = 'testStrategyNode'
         this.version = 1.0
         this.type = 'TestStrategyNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'teststrategy.svg'
         this.category = 'Main Nodes'
         this.description = `General testing strategy for the project`
         this.baseClasses = [this.type]
