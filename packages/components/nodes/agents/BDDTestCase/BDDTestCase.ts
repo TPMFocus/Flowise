@@ -69,13 +69,31 @@ class BDDTestCase_Documentation implements INode {
                 optional: true
             },
             {
-                label: 'Gherkin Steps', 
+                label: 'Gherkin Steps',
                 name: 'gherkinSteps',
-                type: 'string',
-                description: 'Description of the test phase.',
+                type: 'datagrid',
+                description: 'Estimation of the test phase.',
+                datagrid : [
+                    {field: 'Keyword', headerName: 'Keyword', type: 'singleSelect', valueOptions:['Given', 'When', 'Then', 'And'], editable: true},
+                    {field: 'Text', headerName: 'Text', type: 'string', editable: true, flex: 1}
+                ],
+                default: [
+                    {
+                        Keyword: 'Given', 
+                        Text: ''
+                    },
+                    {
+                        Keyword: 'When', 
+                        Text: ''
+                    },
+                    {
+                        Keyword: 'Then', 
+                        Text: ''
+                    },
+                ],
                 optional: true,
                 additionalParams : true
-            }
+            },
         ]
     }
 }
