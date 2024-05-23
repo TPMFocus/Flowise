@@ -18,7 +18,7 @@ class TestPlan_Documentation implements INode {
         this.type = 'TestPlanNode'
         this.icon = 'testplan.svg'
         this.category = 'Main Nodes'
-        this.description = 'Description.'
+        this.description = 'A formal document outlining the strategy, scope, resources, and schedule for testing a software application or system.'
         this.baseClasses = [this.type]
         this.inputs = [
             {
