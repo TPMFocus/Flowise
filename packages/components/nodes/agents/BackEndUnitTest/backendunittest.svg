@@ -1,0 +1,19 @@
+<svg viewBox="0 0 32 32" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" fill="#000000" width="32" height="32">
+  <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+  <g id="SVGRepo_iconCarrier">
+    <defs>
+      <style>
+        .cls-1{fill:none;stroke:#33CC99;stroke-miterlimit:10;stroke-width:1.95px;}
+      </style>
+    </defs>
+    <path class="cls-1" d="M8 2.667v6.493c-4 -0.693 -6.533 -1.893 -6.533 -3.28S4 3.307 8 2.667Z"/>
+    <path class="cls-1" d="M30.133 5.88c0 1.333 -2.667 2.587 -6.52 3.28V2.667c3.92 0.64 6.52 1.84 6.52 3.213Z"/>
+    <path class="cls-1" d="M1.467 25.427C1.467 27.587 7.88 29.333 15.8 29.333s14.333 -1.747 14.333 -3.907"/>
+    <path class="cls-1" d="M1.467 18.907c0 2.173 6.413 3.907 14.333 3.907s14.333 -1.733 14.333 -3.907"/>
+    <path class="cls-1" d="M1.467 12.4c0 2.16 6.413 3.907 14.333 3.907S30.133 14.56 30.133 12.4"/>
+    <path class="cls-1" d="M8 5.88v3.28a45.867 45.867 0 0 0 7.827 0.627 45.333 45.333 0 0 0 7.813 -0.627V5.88"/>
+    <path class="cls-1" x1="1.1" y1="19.07" x2="1.1" y2="4.41" d="M1.467 25.427L1.467 5.88"/>
+    <path class="cls-1" x1="22.6" y1="19.07" x2="22.6" y2="4.41" d="M30.133 25.427L30.133 5.88"/>
+  </g>
+</svg>

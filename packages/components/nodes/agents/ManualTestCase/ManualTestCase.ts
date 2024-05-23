@@ -16,8 +16,8 @@ class ManualTestCase_Documentation implements INode {
         this.name = 'ManualTestCaseNode'
         this.version = 1.0
         this.type = 'ManualTestCaseNode'
-        this.icon = 'gitbook.svg'
-        this.category = 'Main Nodes'
+        this.icon = 'manualtestcase.svg'
+        this.category = 'Manual Test'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]
         this.inputs = [

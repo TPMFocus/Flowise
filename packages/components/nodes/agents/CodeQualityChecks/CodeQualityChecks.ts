@@ -16,8 +16,8 @@ class CodeQualityChecks_Documentation implements INode {
         this.name = 'CodeQualityChecksNode'
         this.version = 1.0
         this.type = 'CodeQualityChecksNode'
-        this.icon = 'gitbook.svg'
-        this.category = 'Main Nodes'
+        this.icon = 'codequalitychecks.svg'
+        this.category = 'Test Case Nodes'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]
         this.inputs = [

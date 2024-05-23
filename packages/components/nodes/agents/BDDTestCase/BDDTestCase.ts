@@ -16,8 +16,8 @@ class BDDTestCase_Documentation implements INode {
         this.name = 'BDDTestCaseNode'
         this.version = 1.0
         this.type = 'BDDTestCaseNode'
-        this.icon = 'gitbook.svg'
-        this.category = 'Main Nodes'
+        this.icon = 'bddtestcase.svg'
+        this.category = 'Test Case Nodes'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]
         this.inputs = [

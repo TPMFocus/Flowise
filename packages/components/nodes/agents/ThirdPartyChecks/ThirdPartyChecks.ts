@@ -16,8 +16,8 @@ class ThridPartyChecks_Documentation implements INode {
         this.name = 'ThridPartyChecksNode'
         this.version = 1.0
         this.type = 'ThridPartyChecksNode'
-        this.icon = 'gitbook.svg'
-        this.category = 'Main Nodes'
+        this.icon = 'thirdpartychecks.svg'
+        this.category = 'Test Case Nodes'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]
         this.inputs = [

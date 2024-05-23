@@ -16,8 +16,8 @@ class AutomatedTestCase_Documentation implements INode {
         this.name = 'AutomatedTestCaseNode'
         this.version = 1.0
         this.type = 'AutomatedTestCaseNode'
-        this.icon = 'gitbook.svg'
-        this.category = 'Main Nodes'
+        this.icon = 'automatedtestcase.svg'
+        this.category = 'Automated Test'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]
         this.inputs = [

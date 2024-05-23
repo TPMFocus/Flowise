@@ -16,7 +16,7 @@ class TestPhase_Documentation implements INode {
         this.name = 'TestingPhaseNode'
         this.version = 1.0
         this.type = 'TestingPhaseNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'testphase.svg'
         this.category = 'Main Nodes'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]

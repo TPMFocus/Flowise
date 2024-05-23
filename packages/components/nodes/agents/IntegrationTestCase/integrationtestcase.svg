@@ -1,0 +1,12 @@
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+  <g id="SVGRepo_iconCarrier">
+    <path d="M16 7.413h13.333" stroke="#33CC99" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18.96 2.667h7.413C28.747 2.667 29.333 3.253 29.333 5.6v5.48c0 2.347 -0.587 2.933 -2.96 2.933h-7.413c-2.373 0 -2.96 -0.587 -2.96 -2.933V5.6c0 -2.347 0.587 -2.933 2.96 -2.933" stroke="#33CC99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2.667 22.747h13.333" stroke="#33CC99" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M5.627 18h7.413c2.373 0 2.96 0.587 2.96 2.933v5.48c0 2.347 -0.587 2.933 -2.96 2.933H5.627c-2.373 0 -2.96 -0.587 -2.96 -2.933V20.933c0 -2.347 0.587 -2.933 2.96 -2.933" stroke="#33CC99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M29.333 20c0 5.16 -4.173 9.333 -9.333 9.333l1.4 -2.333" stroke="#33CC99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2.667 12c0 -5.16 4.173 -9.333 9.333 -9.333L10.6 5" stroke="#33CC99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

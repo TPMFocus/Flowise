@@ -16,7 +16,7 @@ class TestSuite_Documentation implements INode {
         this.name = 'TestSuiteNode'
         this.version = 1.0
         this.type = 'TestSuiteNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'testsuite.svg'
         this.category = 'Main Nodes'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]

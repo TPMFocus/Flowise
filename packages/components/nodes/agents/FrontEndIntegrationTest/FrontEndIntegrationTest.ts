@@ -16,7 +16,7 @@ class FrontEndIntegrationTest_Documentation implements INode {
         this.name = 'FrontEndIntegrationTestNode'
         this.version = 1.0
         this.type = 'FrontEndIntegrationTestNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'frontendintegrationtest.svg'
         this.category = 'Integration Test Nodes'
         this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
         this.baseClasses = [this.type]

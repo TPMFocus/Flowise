@@ -14,11 +14,12 @@ class TestPlan_Documentation implements INode {
     constructor() {
         this.label = 'Test Plan'
         this.name = 'TestPlanNode'
-        this.version = 2.0
+        this.version = 1.0
         this.type = 'TestPlanNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'testplan.svg'
         this.category = 'Main Nodes'
         this.description = 'Description.'
+        this.baseClasses = [this.type]
         this.inputs = [
             {
                 label: 'Input',
@@ -43,7 +44,7 @@ class TestPlan_Documentation implements INode {
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: '.',
+                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -51,15 +52,15 @@ class TestPlan_Documentation implements INode {
                 name: 'numberOfAssignedTesters',
                 type: 'number',
                 step: 1,
-                description: '.',
+                description: 'Number of assigned testers.',
                 optional: true,
                 additionalParams : true
             },
             {
                 label: 'Date of execution',
                 name: 'dateOfExecution',
-                type: 'date',
-                description: '.',
+                type: 'string',
+                description: 'Date of execution of the test phase.',
                 optional: true,
                 additionalParams : true
             },
@@ -67,7 +68,7 @@ class TestPlan_Documentation implements INode {
                 label: 'Estimation',
                 name: 'estimation',
                 type: 'string',
-                description: 'Estimation of the test phase.',
+                description: 'Estimation of the test plan.',
                 optional: true,
                 additionalParams : true
             },
@@ -76,7 +77,7 @@ class TestPlan_Documentation implements INode {
                 name: 'riskAssessment',
                 type: 'string',
                 rows: 4,
-                description: '.',
+                description: 'Risk assessment of the test plan.',
                 optional: true,
                 additionalParams : true
             },
@@ -85,7 +86,7 @@ class TestPlan_Documentation implements INode {
                 name: 'dataRequirements',
                 type: 'string',
                 rows: 4,
-                description: '.',
+                description: 'Data requirements of the test plan.',
                 optional: true,
                 additionalParams : true
             },
@@ -94,7 +95,7 @@ class TestPlan_Documentation implements INode {
                 name: 'overallExecutionResults',
                 type: 'string',
                 rows: 2,
-                description: '.',
+                description: 'Overall execution results of the test plan.',
                 optional: true,
                 additionalParams : true
             }

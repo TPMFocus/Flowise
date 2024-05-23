@@ -1,0 +1,18 @@
+<svg fill="#000000" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+  <g id="SVGRepo_iconCarrier">
+    <defs>
+      <style>
+        .cls-1{fill:none;}
+      </style>
+    </defs>
+    <title>datastore</title>
+    <path cx="23" cy="23" r="1" d="M24 23A1 1 0 0 1 23 24A1 1 0 0 1 22 23A1 1 0 0 1 24 23z"/>
+    <path x="8" y="22" width="12" height="2" d="M8 22H20V24H8V22z"/>
+    <path cx="23" cy="9" r="1" d="M24 9A1 1 0 0 1 23 10A1 1 0 0 1 22 9A1 1 0 0 1 24 9z"/>
+    <path x="8" y="8" width="12" height="2" d="M8 8H20V10H8V8z"/>
+    <path d="M26 14a2 2 0 0 0 2 -2V6a2 2 0 0 0 -2 -2H6a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2v4H6a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h20a2 2 0 0 0 2 -2v-6a2 2 0 0 0 -2 -2h-2v-4ZM6 6h20v6H6Zm20 20H6v-6h20Zm-4 -8H10v-4h12Z"/>
+    <path id="_Transparent_Rectangle_" data-name="&amp;lt;Transparent Rectangle&amp;gt;" class="cls-1" width="32" height="32" d="M0 0H32V32H0V0z"/>
+  </g>
+</svg>
