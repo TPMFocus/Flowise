@@ -18,11 +18,11 @@ class ManualTestStep_Documentation implements INode {
         this.type = 'TestStepNode'
         this.icon = 'manualteststep.svg'
         this.category = 'Manual Test'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Single action a tester performs during manual testing (e.g., click a button, enter text).`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'ManualTestCaseNode',
                 optional: true
@@ -31,21 +31,21 @@ class ManualTestStep_Documentation implements INode {
                 label: 'Step ID',
                 name: 'stepId',
                 type: 'number',
-                description: 'Title of the test strategy.'
+                description: 'Unique identifier for the test step.'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
+                description: 'Detailed instructions for the tester to follow.',
                 optional: true
             },
             {
                 label: 'Required Input',
                 name: 'requiredInput',
                 type: 'string',
-                description: 'Start date of the test phase.',
+                description: 'Data or information the tester must provide to complete the test step.',
                 optional: true,
                 additionalParams : true
             },
@@ -53,7 +53,7 @@ class ManualTestStep_Documentation implements INode {
                 label: 'Expected Output',
                 name: 'expectedOutput',
                 type: 'string',
-                description: 'Start date of the test phase.',
+                description: 'Desired result or outcome of the test step.',
                 optional: true,
                 additionalParams : true
             }

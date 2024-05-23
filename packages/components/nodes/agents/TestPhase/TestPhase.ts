@@ -18,11 +18,11 @@ class TestPhase_Documentation implements INode {
         this.type = 'TestingPhaseNode'
         this.icon = 'testphase.svg'
         this.category = 'Main Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Dedicated stage in software development focused on identifying and fixing bugs before launch.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestStrategyNode',
                 optional: true
@@ -30,15 +30,13 @@ class TestPhase_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
                 optional: true
             },
             {

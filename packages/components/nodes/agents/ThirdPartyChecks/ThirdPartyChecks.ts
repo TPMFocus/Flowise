@@ -18,11 +18,11 @@ class ThridPartyChecks_Documentation implements INode {
         this.type = 'ThridPartyChecksNode'
         this.icon = 'thirdpartychecks.svg'
         this.category = 'Test Case Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Verification of integrations with external systems or services.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,15 +30,13 @@ class ThridPartyChecks_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -56,15 +54,15 @@ class ThridPartyChecks_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
                 label: 'Type',
                 name: 'type',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'Type of the third party check.',
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Tools',

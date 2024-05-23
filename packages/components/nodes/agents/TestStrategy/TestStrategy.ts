@@ -18,21 +18,19 @@ class TestStrategy_Documentation implements INode {
         this.type = 'TestStrategyNode'
         this.icon = 'teststrategy.svg'
         this.category = 'Main Nodes'
-        this.description = `General testing strategy for the project`
+        this.description = `High-level plan outlining the overall testing approach for a project.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test strategy.',
                 optional: true
             },
             {

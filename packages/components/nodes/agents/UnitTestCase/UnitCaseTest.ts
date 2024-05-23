@@ -18,11 +18,11 @@ class UnitTestCase_Documentation implements INode {
         this.type = 'UnitTestNode'
         this.icon = 'unittestcase.svg'
         this.category = 'Unit Test Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Isolated test designed to verify the functionality of a single software unit (e.g., function, class, module) in isolation from other parts of the code.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,15 +30,13 @@ class UnitTestCase_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -56,7 +54,6 @@ class UnitTestCase_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {

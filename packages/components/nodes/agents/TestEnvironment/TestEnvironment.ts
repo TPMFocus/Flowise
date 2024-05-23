@@ -16,43 +16,44 @@ class TestEnvironment_Documentation implements INode {
         this.name = 'TestEnvironmentNode'
         this.version = 1.0
         this.type = 'TestEnvironmentNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'testenvironment.svg'
         this.category = 'Main Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Isolated system replica for running tests without impacting production.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
                 label: 'Name',
                 name: 'name',
-                type: 'string',
-                description: 'Description of the test phase.'
+                type: 'string'
             },
             {
                 label: 'URL',
                 name: 'url',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: 'URL of the test environment.',
                 optional: true
             },
             {
                 label: 'Database',
                 name: 'database',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'Database used for the tests.',
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Credentials',
                 name: 'credentials',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'Credentials for the test environment.',
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Tools',
                 name: 'tools',
                 type: 'string',
-                description: 'Tools used for the checks.',
+                description: 'Tools used for the tests.',
                 optional: true,
                 additionalParams : true
             }

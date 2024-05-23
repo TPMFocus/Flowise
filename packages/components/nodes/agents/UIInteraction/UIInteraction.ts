@@ -18,11 +18,11 @@ class UIInteraction_Documentation implements INode {
         this.type = 'UIInteractionNode'
         this.icon = 'uiinteraction.svg'
         this.category = 'Automated Test'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Action on a visual element and system's response.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'AutomatedTestCaseNode',
                 optional: true
@@ -30,24 +30,43 @@ class UIInteraction_Documentation implements INode {
             {
                 label: 'Element',
                 name: 'elementType',
-                type: 'string',
-                description: 'Title of the test strategy.',
+                type: 'options',
+                options: [
+                    {label: 'Button', name: 'Button'}, 
+                    {label: 'Text field', name: 'Text field'}, 
+                    {label: 'Link', name: 'Link'},
+                    {label: 'Dropdown menu', name: 'Dropdown menu'},
+                    {label: 'Checkbox', name: 'Checkbox'},
+                    {label: 'Radio Buttons', name: 'Radio Buttons'},
+                    {label: 'Slider', name: 'Slider'},
+                    {label: 'Toggle Switches', name: 'Toggle Switches'},
+                    {label: 'Tab', name: 'Tab'},
+                    {label: 'Popup', name: 'Popup'},
+                    {label: 'Progress Bars', name: 'Progress Bars'}
+                ],
                 additionalParams : true
             },
             {
                 label: 'Identifier',
                 name: 'identifier',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true,
                 additionalParams : true
             },
             {
                 label: 'Action',
                 name: 'action',
-                type: 'string',
-                rows: 4,
-                description: 'Description of the test phase.',
+                type: 'multiOptions',
+                options: [
+                    {label: 'Click', name: 'Click'},
+                    {label: 'Type', name: 'Type'},
+                    {label: 'Drag & Drop', name: 'Drag & Drop'},
+                    {label: 'Hover', name: 'Hover'},
+                    {label: 'Select', name: 'Select'},
+                    {label: 'Swipe', name: 'Swipe'},
+                    {label: 'Scroll', name: 'Scroll'},
+                    {label: 'Zoom', name: 'Zoom'}
+                ],
                 optional: true,
                 additionalParams : true
             },
@@ -55,7 +74,7 @@ class UIInteraction_Documentation implements INode {
                 label: 'Value',
                 name: 'value',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: 'Value to be typed or selected (if appliable).',
                 optional: true,
                 additionalParams : true
             }

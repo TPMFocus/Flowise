@@ -18,11 +18,11 @@ class ManualTestCase_Documentation implements INode {
         this.type = 'ManualTestCaseNode'
         this.icon = 'manualtestcase.svg'
         this.category = 'Manual Test'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Step-by-step instructions for a tester to verify software functionality without automation tools.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,8 +30,7 @@ class ManualTestCase_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Priority',
@@ -48,7 +47,6 @@ class ManualTestCase_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -56,7 +54,7 @@ class ManualTestCase_Documentation implements INode {
                 name: 'preconditions',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
+                description: 'Requirements that must be met before a test case can be executed.',
                 optional: true,
                 additionalParams : true
             },
@@ -65,7 +63,7 @@ class ManualTestCase_Documentation implements INode {
                 name: 'postconditions',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
+                description: 'Expected state or outcome after a test case is executed.',
                 optional: true,
                 additionalParams : true
             },
@@ -74,7 +72,7 @@ class ManualTestCase_Documentation implements INode {
                 name: 'expectedResults',
                 type: 'string',
                 rows: 2,
-                description: 'Description of the test phase.',
+                description: 'Expected Outcome  (or Expected Behavior)',
                 optional: true,
                 additionalParams : true
             },
@@ -83,7 +81,7 @@ class ManualTestCase_Documentation implements INode {
                 name: 'actualResults',
                 type: 'string',
                 rows: 2,
-                description: 'Description of the test phase.',
+                description: 'Actual Outcome (or Observed Behavior)',
                 optional: true,
                 additionalParams : true
             },
@@ -91,7 +89,7 @@ class ManualTestCase_Documentation implements INode {
                 label: 'Test Data',
                 name: 'testData',
                 type: 'file',
-                description: 'Description of the test phase.',
+                description: 'Sample input values used to trigger specific scenarios during testing.',
                 optional: true,
                 additionalParams : true
             },
@@ -100,7 +98,7 @@ class ManualTestCase_Documentation implements INode {
                 name: 'assignedTesters',
                 type: 'string',
                 rows: 2,
-                description: 'Description of the test phase.',
+                description: 'Individuals designated to execute the specific test case.',
                 optional: true,
                 additionalParams : true
             }

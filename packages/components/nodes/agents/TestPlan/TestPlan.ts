@@ -22,7 +22,7 @@ class TestPlan_Documentation implements INode {
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestingPhaseNode',
                 optional: true
@@ -36,15 +36,13 @@ class TestPlan_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -52,7 +50,6 @@ class TestPlan_Documentation implements INode {
                 name: 'numberOfAssignedTesters',
                 type: 'number',
                 step: 1,
-                description: 'Number of assigned testers.',
                 optional: true,
                 additionalParams : true
             },

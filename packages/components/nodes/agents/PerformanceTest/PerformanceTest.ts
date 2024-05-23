@@ -16,13 +16,13 @@ class PerformanceTest_Documentation implements INode {
         this.name = 'PerformanceTestNode'
         this.version = 1.0
         this.type = 'PerformanceTestNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'performancetest.svg'
         this.category = 'Test Case Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Evaluation of software's responsiveness, stability, and scalability under a specific load.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,15 +30,13 @@ class PerformanceTest_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -56,14 +54,13 @@ class PerformanceTest_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
                 label: 'Metrics',
                 name: 'metrics',
                 type: 'datagrid',
-                description: 'Estimation of the test phase.',
+                description: 'Metrics to be measured for the performance test.',
                 datagrid : [
                     {field: 'Metric', label: 'Metric', type: 'string', flex:1, editable: true},
                     {field: 'Value', label: 'Value', type: 'number', editable: true}

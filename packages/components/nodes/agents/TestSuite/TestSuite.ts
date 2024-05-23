@@ -18,11 +18,11 @@ class TestSuite_Documentation implements INode {
         this.type = 'TestSuiteNode'
         this.icon = 'testsuite.svg'
         this.category = 'Main Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Collection of organized test cases designed to be run together for a specific functionality or feature.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestPlanNode',
                 optional: true
@@ -30,15 +30,13 @@ class TestSuite_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -46,7 +44,7 @@ class TestSuite_Documentation implements INode {
                 name: 'exitCriteria',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
+                description: 'Conditions that must be met before the test suite can be considered complete.',
                 optional: true,
                 additionalParams : true
             }

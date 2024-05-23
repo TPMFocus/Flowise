@@ -18,11 +18,11 @@ class SecurityTestCase_Documentation implements INode {
         this.type = 'SecurityTestNode'
         this.icon = 'securitytest.svg'
         this.category = 'Test Case Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Assessment of a system's vulnerability to unauthorized access, data breaches, or other malicious attacks.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,15 +30,13 @@ class SecurityTestCase_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -56,7 +54,6 @@ class SecurityTestCase_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
@@ -68,7 +65,8 @@ class SecurityTestCase_Documentation implements INode {
                     {label: 'Vulnerability Scanning', name: 'Vulnerability Scanning'},
                     {label: 'Other', name: 'Other'}
                 ],
-                optional: true
+                optional: true,
+                additionalParams: true
             }
         ]
     }

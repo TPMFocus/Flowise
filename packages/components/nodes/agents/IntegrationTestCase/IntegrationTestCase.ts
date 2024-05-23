@@ -18,11 +18,11 @@ class IntegrationTestCase_Documentation implements INode {
         this.type = 'IntegrationTestNode'
         this.icon = 'integrationtestcase.svg'
         this.category = 'Integration Test Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Test verifying how multiple software modules or systems work together as a whole.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,16 +30,15 @@ class IntegrationTestCase_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
-                optional: true
+                optional: true,
+                additionalParams: true
             },
             {
                 label: 'Priority',
@@ -56,7 +55,6 @@ class IntegrationTestCase_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
