@@ -18,11 +18,11 @@ class FrontEndIntegrationTest_Documentation implements INode {
         this.type = 'FrontEndIntegrationTestNode'
         this.icon = 'frontendintegrationtest.svg'
         this.category = 'Integration Test Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Test verifying interaction between UI elements and their backend data flow.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'IntegrationTestNode',
                 optional: true
@@ -31,14 +31,17 @@ class FrontEndIntegrationTest_Documentation implements INode {
                 label: 'Integration Scope',
                 name: 'IntegrationScope',
                 type: 'string',
-                description: 'Title of the test strategy.'
+                description: 'Specific components and functionalities within the frontend that interact with backend services.',
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Front End Technology',
                 name: 'FrontEndTechnology',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'Tools and frameworks used to build the user interface (HTML, CSS, JavaScript libraries) under test.',
+                optional: true,
+                additionalParams : true
             }
         ]
     }

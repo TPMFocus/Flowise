@@ -18,11 +18,11 @@ class CodeQualityChecks_Documentation implements INode {
         this.type = 'CodeQualityChecksNode'
         this.icon = 'codequalitychecks.svg'
         this.category = 'Test Case Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Automated or manual reviews to ensure code meets coding standards and best practices.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,16 +30,7 @@ class CodeQualityChecks_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
-            },
-            {
-                label: 'Description',
-                name: 'description',
-                type: 'string',
-                rows: 4,
-                description: 'Description of the test phase.',
-                optional: true
+                type: 'string'
             },
             {
                 label: 'Priority',
@@ -53,17 +44,22 @@ class CodeQualityChecks_Documentation implements INode {
                 optional: true
             },
             {
+                label: 'Description',
+                name: 'description',
+                type: 'string',
+                rows: 4,
+                optional: true
+            },
+            {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
                 label: 'Checks',
                 name: 'checks',
                 type: 'datagrid',
-                description: 'Estimation of the test phase.',
                 datagrid : [
                     {field: 'Metric', label: 'Metric', type: 'string', flex:1, editable: true},
                     {field: 'Value', label: 'Value', type: 'number', editable: true}
@@ -89,7 +85,6 @@ class CodeQualityChecks_Documentation implements INode {
                 label: 'Tools',
                 name: 'tools',
                 type: 'string',
-                description: 'Tools used for the checks.',
                 optional: true,
                 additionalParams : true
             }

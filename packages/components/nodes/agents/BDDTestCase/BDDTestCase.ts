@@ -18,11 +18,11 @@ class BDDTestCase_Documentation implements INode {
         this.type = 'BDDTestCaseNode'
         this.icon = 'bddtestcase.svg'
         this.category = 'Test Case Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `User-focused test scenario written in plain language.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,14 +30,13 @@ class BDDTestCase_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Background',
                 name: 'background',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: 'Shared setup steps for BDD scenarios in a feature file.',
                 optional: true,
                 additionalParams : true
             },
@@ -46,7 +45,7 @@ class BDDTestCase_Documentation implements INode {
                 name: 'scenario',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
+                description: 'Specific user behavior example within a feature.',
                 optional: true,
                 additionalParams : true
             },
@@ -65,16 +64,15 @@ class BDDTestCase_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
                 optional: true
             },
             {
                 label: 'Gherkin Steps',
                 name: 'gherkinSteps',
                 type: 'datagrid',
-                description: 'Estimation of the test phase.',
+                description: 'Structured actions in a BDD scenario using keywords like Given, When, Then.',
                 datagrid : [
-                    {field: 'Keyword', headerName: 'Keyword', type: 'singleSelect', valueOptions:['Given', 'When', 'Then', 'And'], editable: true},
+                    {field: 'Keyword', headerName: 'Keyword', type: 'singleSelect', valueOptions:['Given', 'When', 'Then', 'And', 'But'], editable: true},
                     {field: 'Text', headerName: 'Text', type: 'string', editable: true, flex: 1}
                 ],
                 default: [

@@ -18,27 +18,27 @@ class BackEndUnitTest_Documentation implements INode {
         this.type = 'BackEndUnitTestNode'
         this.icon = 'backendunittest.svg'
         this.category = 'Unit Test Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Focused scripts that automatically validate individual backend components in isolation.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
-                type: 'UnitTestNode',
-                optional: true
+                type: 'UnitTestNode'
             },
             {
                 label: 'Unit Test Class',
                 name: 'UnitTestClass',
                 type: 'string',
-                description: 'Title of the test strategy.'
+                additionalParams : true
             },
             {
                 label: 'Mocking Framework',
                 name: 'Mocking',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: '(e.g., Mockito, Mock, PowerMock)',
+                optional: true,
+                additionalParams : true
             }
         ]
     }

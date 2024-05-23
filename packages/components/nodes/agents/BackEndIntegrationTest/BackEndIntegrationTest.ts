@@ -18,11 +18,11 @@ class BackEndIntegrationTest_Documentation implements INode {
         this.type = 'BackEndIntegrationTestNode'
         this.icon = 'backendintegrationtest.svg'
         this.category = 'Integration Test Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Scripts that check how different backend parts interact and function together as a system.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'IntegrationTestNode',
                 optional: true
@@ -31,14 +31,17 @@ class BackEndIntegrationTest_Documentation implements INode {
                 label: 'Integration Scope',
                 name: 'IntegrationScope',
                 type: 'string',
-                description: 'Title of the test strategy.'
+                description: 'The breadth of backend components an automated test orchestrates to verify a feature\'s functionality.',
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Back End Technology',
                 name: 'BackEndTechnology',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: '(e.g., Python, Django, PostgreSQL)',
+                optional: true,
+                additionalParams : true
             }
         ]
     }

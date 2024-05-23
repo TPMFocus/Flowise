@@ -18,11 +18,11 @@ class AutomatedTestCase_Documentation implements INode {
         this.type = 'AutomatedTestCaseNode'
         this.icon = 'automatedtestcase.svg'
         this.category = 'Automated Test'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Pre-defined routines that execute test logic without manual intervention.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'TestSuiteNode',
                 optional: true
@@ -30,8 +30,7 @@ class AutomatedTestCase_Documentation implements INode {
             {
                 label: 'Title',
                 name: 'title',
-                type: 'string',
-                description: 'Title of the test strategy.'
+                type: 'string'
             },
             {
                 label: 'Priority',
@@ -48,7 +47,7 @@ class AutomatedTestCase_Documentation implements INode {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: '',
                 optional: true
             },
             {
@@ -56,7 +55,7 @@ class AutomatedTestCase_Documentation implements INode {
                 name: 'preconditions',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
+                description: 'The required initial conditions for a test case to run properly.',
                 optional: true,
                 additionalParams : true
             },
@@ -65,7 +64,7 @@ class AutomatedTestCase_Documentation implements INode {
                 name: 'postconditions',
                 type: 'string',
                 rows: 4,
-                description: 'Description of the test phase.',
+                description: 'The expected state of the system after a test case executes.',
                 optional: true,
                 additionalParams : true
             },
@@ -74,7 +73,7 @@ class AutomatedTestCase_Documentation implements INode {
                 name: 'expectedResults',
                 type: 'string',
                 rows: 2,
-                description: 'Description of the test phase.',
+                description: 'The anticipated outcome a tester predicts for a test case, compared to the actual results to identify bugs.',
                 optional: true,
                 additionalParams : true
             },
@@ -83,7 +82,7 @@ class AutomatedTestCase_Documentation implements INode {
                 name: 'actualResults',
                 type: 'string',
                 rows: 2,
-                description: 'Description of the test phase.',
+                description: 'The observed behavior of the system after running a test case.',
                 optional: true,
                 additionalParams : true
             },
@@ -91,7 +90,7 @@ class AutomatedTestCase_Documentation implements INode {
                 label: 'Script Location',
                 name: 'scriptLocation',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: 'The path to the test script file.',
                 optional: true,
                 additionalParams : true
             },
@@ -99,7 +98,7 @@ class AutomatedTestCase_Documentation implements INode {
                 label: 'Programming Language',
                 name: 'programmingLanguage',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: 'The programming language used to write the test script.',
                 optional: true,
                 additionalParams : true
             },
@@ -107,7 +106,7 @@ class AutomatedTestCase_Documentation implements INode {
                 label: 'Framework',
                 name: 'framework',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: 'The testing framework used to execute the test script.',
                 optional: true,
                 additionalParams : true
             },
@@ -128,7 +127,7 @@ class AutomatedTestCase_Documentation implements INode {
                 name: 'dependencies',
                 type: 'string',
                 rows: 2,
-                description: 'Description of the test phase.',
+                description: 'List of dependencies for the automated test case.',
                 optional: true,
                 additionalParams : true
             }

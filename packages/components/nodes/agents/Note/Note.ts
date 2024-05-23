@@ -1,6 +1,6 @@
 import { INode, INodeParams } from '../../../src/Interface'
 
-class StickyNote implements INode {
+class Note implements INode {
     label: string
     name: string
     version: number
@@ -15,7 +15,7 @@ class StickyNote implements INode {
         this.label = 'Note'
         this.name = 'NoteNode'
         this.version = 1.0
-        this.type = 'NoteNode'
+        this.type = 'StickyNote'
         this.icon = 'note.svg'
         this.category = 'Main Nodes'
         this.description = 'Add a sticky note'
@@ -31,6 +31,10 @@ class StickyNote implements INode {
         ]
         this.baseClasses = [this.type]
     }
+
+    async init(): Promise<any> {
+        return new Note()
+    }
 }
 
-module.exports = { nodeClass: StickyNote }
+module.exports = { nodeClass: Note }

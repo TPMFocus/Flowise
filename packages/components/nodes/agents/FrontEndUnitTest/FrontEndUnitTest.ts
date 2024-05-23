@@ -18,11 +18,11 @@ class FrontEndUnitTest_Documentation implements INode {
         this.type = 'FrontEndUnitTestNode'
         this.icon = 'frontendunittest.svg'
         this.category = 'Unit Test Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Isolated test of a single frontend component's functionality.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: 'Input',
+                label: '',
                 name: 'input',
                 type: 'UnitTestNode',
                 optional: true
@@ -31,13 +31,13 @@ class FrontEndUnitTest_Documentation implements INode {
                 label: 'UI Test Framework',
                 name: 'UITestFramework',
                 type: 'string',
-                description: 'Title of the test strategy.'
+                description: 'The UI test framework used to run the test.',
             },
             {
                 label: 'UI Elements',
                 name: 'UIElements',
                 type: 'string',
-                description: 'Description of the test phase.',
+                description: 'The UI elements that are being tested.',
                 optional: true
             }
         ]

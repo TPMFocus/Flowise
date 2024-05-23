@@ -18,29 +18,32 @@ class Integration_Documentation implements INode {
         this.type = 'IntegrationNode'
         this.icon = 'integration.svg'
         this.category = 'Main Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Integration with JIRA.`
         this.baseClasses = [this.type]
         this.inputs = [
             {
                 label: 'JIRA URL',
                 name: 'JIRA_URL',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'The URL of the JIRA server.',
+                optional: true,
+                additionalParams: true
             },
             {
                 label: 'Project Key',
                 name: 'projectkey',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'The key of the project in JIRA.',
+                optional: true,
+                additionalParams: true
             },
             {
                 label: 'Authentication',
                 name: 'authentication',
                 type: 'password',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'The authentication token for the JIRA server.',
+                optional: true,
+                additionalParams: true
             }
         ]
     }

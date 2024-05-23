@@ -16,31 +16,34 @@ class ExecutionDetails_Documentation implements INode {
         this.name = 'ExecutionDetailsNode'
         this.version = 1.0
         this.type = 'ExecutionDetailsNode'
-        this.icon = 'gitbook.svg'
+        this.icon = 'executiondetails.svg'
         this.category = 'Main Nodes'
-        this.description = `The testing phase is the process of evaluating software to ensure it meets the required specifications and quality standards.`
+        this.description = `Execution History (Date, Estimate, Actual Time, Status)`
         this.baseClasses = [this.type]
         this.inputs = [
             {
                 label: 'Date of Execution',
                 name: 'dateOfExecution',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'The date at which the test was executed.',
+                optional: true,
+                additionalParams : true
             },
             {
-                label: 'Estomation',
-                name: 'estomation',
+                label: 'Estimation',
+                name: 'estimation',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'The estimated time for the test to be executed.',
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Real Execution Time',
                 name: 'realExecutionTime',
                 type: 'string',
-                description: 'Description of the test phase.',
-                optional: true
+                description: 'The actual time taken to execute the test.',
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Execution Status',
@@ -50,7 +53,8 @@ class ExecutionDetails_Documentation implements INode {
                     {label: 'Pass', name: 'Pass'}, 
                     {label: 'Fail', name: 'Fail'}
                 ],
-                optional: true
+                optional: true,
+                additionalParams : true
             }
         ]
     }
