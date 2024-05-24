@@ -390,7 +390,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                 onCancel={() => setFlowDialogOpen(false)}
                 onConfirm={onConfirmSaveName}
             />
-            <APICodeDialog show={apiDialogOpen} dialogProps={apiDialogProps} onCancel={() => setAPIDialogOpen(false)} />
+            
             <ViewMessagesDialog
                 show={viewMessagesDialogOpen}
                 dialogProps={viewMessagesDialogProps}

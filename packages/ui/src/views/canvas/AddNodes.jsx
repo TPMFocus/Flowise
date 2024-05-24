@@ -23,7 +23,7 @@ import {
     Stack,
     Typography,
     Chip,
-    Tab,
+    Tab, 
     Tabs
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -38,8 +38,7 @@ import { StyledFab } from '@/ui-component/button/StyledFab'
 
 // icons
 import { IconPlus, IconSearch, IconMinus, IconX } from '@tabler/icons'
-import LlamaindexPNG from '@/assets/images/llamaindex.png'
-import LangChainPNG from '@/assets/images/langchain.png'
+import toolsIcon from  '@/assets/images/toolsIcon.png'
 
 // const
 import { baseURL } from '@/store/constant'
@@ -300,7 +299,8 @@ const AddNodes = ({ nodesData, node }) => {
                                             onChange={handleTabChange}
                                             aria-label='tabs'
                                         >
-                                            {['LangChain', 'LlamaIndex'].map((item, index) => (
+                                            {
+                                            ['Node List'].map((item, index) => (
                                                 <Tab
                                                     icon={
                                                         <div
@@ -315,7 +315,7 @@ const AddNodes = ({ nodesData, node }) => {
                                                                     borderRadius: '50%',
                                                                     objectFit: 'contain'
                                                                 }}
-                                                                src={index === 0 ? LangChainPNG : LlamaindexPNG}
+                                                                src={toolsIcon}
                                                                 alt={item}
                                                             />
                                                         </div>
@@ -326,28 +326,8 @@ const AddNodes = ({ nodesData, node }) => {
                                                     label={item}
                                                     {...a11yProps(index)}
                                                 ></Tab>
-                                            ))}
-                                            <div
-                                                style={{
-                                                    display: 'flex',
-                                                    flexDirection: 'row',
-                                                    alignItems: 'center',
-                                                    borderRadius: 10,
-                                                    background: 'rgb(254,252,191)',
-                                                    paddingLeft: 6,
-                                                    paddingRight: 6,
-                                                    paddingTop: 1,
-                                                    paddingBottom: 1,
-                                                    width: 'max-content',
-                                                    position: 'absolute',
-                                                    top: 0,
-                                                    right: 0,
-                                                    fontSize: '0.65rem',
-                                                    fontWeight: 700
-                                                }}
-                                            >
-                                                <span style={{ color: 'rgb(116,66,16)' }}>BETA</span>
-                                            </div>
+                                            ))
+                                            }
                                         </Tabs>
 
                                         <Divider />
