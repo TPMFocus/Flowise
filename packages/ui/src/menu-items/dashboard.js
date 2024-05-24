@@ -18,6 +18,14 @@ const dashboard = {
             url: '/chatflows',
             icon: icons.IconHierarchy,
             breadcrumbs: true
+        },
+        {
+            id: 'tools',
+            title: 'Tools',
+            type: 'item',
+            url: '/tools',
+            icon: icons.IconTool,
+            breadcrumbs: true
         }
     ]
 }
