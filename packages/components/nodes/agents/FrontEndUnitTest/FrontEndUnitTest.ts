@@ -32,13 +32,15 @@ class FrontEndUnitTest_Documentation implements INode {
                 name: 'UITestFramework',
                 type: 'string',
                 description: 'The UI test framework used to run the test.',
+                additionalParams: true
             },
             {
                 label: 'UI Elements',
                 name: 'UIElements',
                 type: 'string',
                 description: 'The UI elements that are being tested.',
-                optional: true
+                optional: true,
+                additionalParams: true
             }
         ]
     }

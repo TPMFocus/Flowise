@@ -37,16 +37,17 @@ class UnitTestCase_Documentation implements INode {
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                optional: true
+                optional: true,
+                additionalParams: true
             },
             {
                 label: 'Priority',
                 name: 'priority',
                 type: 'options',
                 options: [
-                    {label: 'High', name: 'High'}, 
-                    {label: 'Medium', name: 'Medium'}, 
-                    {label: 'Low', name: 'Low'}
+                    { label: 'High', name: 'High' },
+                    { label: 'Medium', name: 'Medium' },
+                    { label: 'Low', name: 'Low' }
                 ],
                 optional: true
             },
@@ -61,8 +62,8 @@ class UnitTestCase_Documentation implements INode {
                 name: 'targetLayer',
                 type: 'options',
                 options: [
-                    {label: 'Front-End', name: 'Front-End'}, 
-                    {label: 'Back-End', name: 'Back-End'}
+                    { label: 'Front-End', name: 'Front-End' },
+                    { label: 'Back-End', name: 'Back-End' }
                 ],
                 optional: true
             }

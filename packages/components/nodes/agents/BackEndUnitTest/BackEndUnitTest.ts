@@ -24,13 +24,14 @@ class BackEndUnitTest_Documentation implements INode {
             {
                 label: '',
                 name: 'input',
-                type: 'UnitTestNode'
+                type: 'UnitTestNode',
+                optional: true
             },
             {
                 label: 'Unit Test Class',
                 name: 'UnitTestClass',
                 type: 'string',
-                additionalParams : true
+                additionalParams: true
             },
             {
                 label: 'Mocking Framework',
@@ -38,7 +39,7 @@ class BackEndUnitTest_Documentation implements INode {
                 type: 'string',
                 description: '(e.g., Mockito, Mock, PowerMock)',
                 optional: true,
-                additionalParams : true
+                additionalParams: true
             }
         ]
     }
