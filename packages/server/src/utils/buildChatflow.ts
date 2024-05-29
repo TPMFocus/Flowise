@@ -223,7 +223,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                         return {
                             executionError: true,
                             status: 500,
-                            msg: `Ending node must be either a Chainnnnn or Agent`
+                            msg: `No model provided for inference :(`
                         }
                     }
 

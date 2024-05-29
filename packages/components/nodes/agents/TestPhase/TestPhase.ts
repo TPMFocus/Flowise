@@ -42,7 +42,7 @@ class TestPhase_Documentation implements INode {
             {
                 label: 'Start Date',
                 name: 'startDate',
-                type: 'date',
+                type: 'string',
                 description: 'Start date of the test phase.',
                 optional: true,
                 additionalParams : true
@@ -50,7 +50,7 @@ class TestPhase_Documentation implements INode {
             {
                 label: 'End Date',
                 name: 'endDate',
-                type: 'date',
+                type: 'string',
                 description: 'End date of the test phase.',
                 optional: true,
                 additionalParams : true
