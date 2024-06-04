@@ -22,9 +22,15 @@ class ManualTestStep_Documentation implements INode {
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: '',
+                label: 'Test Case',
                 name: 'input',
                 type: 'ManualTestCaseNode',
+                optional: true
+            },
+            {
+                label: 'Test Step',
+                name: 'input',
+                type: 'ManualTestStepNode',
                 optional: true
             },
             {

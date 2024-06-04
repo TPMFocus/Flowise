@@ -11,7 +11,6 @@ import axios from 'axios'
 
 import {
     Box,
-    Button,
     Card,
     CardMedia,
     Chip,
@@ -19,11 +18,10 @@ import {
     Divider,
     IconButton,
     InputAdornment,
-    OutlinedInput,
-    Typography
+    OutlinedInput
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { IconCircleDot, IconDownload, IconSend, IconMicrophone, IconPhotoPlus, IconTrash, IconX, IconTool } from '@tabler/icons'
+import { IconSend, IconPhotoPlus, IconTrash, IconTool } from '@tabler/icons'
 import robotPNG from '@/assets/images/robot.png'
 import userPNG from '@/assets/images/account.png'
 import audioUploadSVG from '@/assets/images/wave-sound.jpg'
@@ -34,7 +32,6 @@ import { MemoizedReactMarkdown } from '@/ui-component/markdown/MemoizedReactMark
 import SourceDocDialog from '@/ui-component/dialog/SourceDocDialog'
 import ChatFeedbackContentDialog from '@/ui-component/dialog/ChatFeedbackContentDialog'
 import StarterPromptsCard from '@/ui-component/cards/StarterPromptsCard'
-import { cancelAudioRecording, startAudioRecording, stopAudioRecording } from './audio-recording'
 import { ImageButton, ImageSrc, ImageBackdrop, ImageMarked } from '@/ui-component/button/ImageButton'
 import CopyToClipboardButton from '@/ui-component/button/CopyToClipboardButton'
 import ThumbsUpButton from '@/ui-component/button/ThumbsUpButton'
@@ -55,7 +52,7 @@ import useApi from '@/hooks/useApi'
 import { baseURL, maxScroll } from '@/store/constant'
 
 // Utils
-import { isValidURL, removeDuplicateURL, setLocalStorageChatflow } from '@/utils/genericHelper'
+import { setLocalStorageChatflow } from '@/utils/genericHelper'
 
 const messageImageStyle = {
     width: '128px',
@@ -73,13 +70,12 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
     const [loading, setLoading] = useState(false)
     const [messages, setMessages] = useState([
         {
-            message: 'Hi Elyess! How can I help?',
+            message: 'Hi <User>! How can I help?',
             type: 'apiMessage'
         }
     ])
     const [socketIOClientId, setSocketIOClientId] = useState('')
     const [isChatFlowAvailableToStream, setIsChatFlowAvailableToStream] = useState(false)
-    const [isChatFlowAvailableForSpeech, setIsChatFlowAvailableForSpeech] = useState(false)
     const [sourceDialogOpen, setSourceDialogOpen] = useState(false)
     const [sourceDialogProps, setSourceDialogProps] = useState({})
     const [chatId, setChatId] = useState(undefined)
@@ -96,14 +92,9 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
     const [showFeedbackContentDialog, setShowFeedbackContentDialog] = useState(false)
 
     // drag & drop and file input
-    const fileUploadRef = useRef(null)
     const [isChatFlowAvailableForUploads, setIsChatFlowAvailableForUploads] = useState(false)
     const [isDragActive, setIsDragActive] = useState(false)
 
-    // recording
-    const [isRecording, setIsRecording] = useState(false)
-    const [recordingNotSupported, setRecordingNotSupported] = useState(false)
-    const [isLoadingRecording, setIsLoadingRecording] = useState(false)
 
     const isFileAllowedForUpload = (file) => {
         const constraints = getAllowChatFlowUploads.data
@@ -202,61 +193,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         }
     }
 
-    const handleFileChange = async (event) => {
-        const fileObj = event.target.files && event.target.files[0]
-        if (!fileObj) {
-            return
-        }
-        let files = []
-        for (const file of event.target.files) {
-            if (isFileAllowedForUpload(file) === false) {
-                return
-            }
-            const reader = new FileReader()
-            const { name } = file
-            files.push(
-                new Promise((resolve) => {
-                    reader.onload = (evt) => {
-                        if (!evt?.target?.result) {
-                            return
-                        }
-                        const { result } = evt.target
-                        resolve({
-                            data: result,
-                            preview: URL.createObjectURL(file),
-                            type: 'file',
-                            name: name,
-                            mime: file.type
-                        })
-                    }
-                    reader.readAsDataURL(file)
-                })
-            )
-        }
 
-        const newFiles = await Promise.all(files)
-        setPreviews((prevPreviews) => [...prevPreviews, ...newFiles])
-        // 👇️ reset file input
-        event.target.value = null
-    }
-
-    const addRecordingToPreviews = (blob) => {
-        const mimeType = blob.type.substring(0, blob.type.indexOf(';'))
-        // read blob and add to previews
-        const reader = new FileReader()
-        reader.readAsDataURL(blob)
-        reader.onloadend = () => {
-            const base64data = reader.result
-            const upload = {
-                data: base64data,
-                preview: audioUploadSVG,
-                type: 'audio',
-                name: 'audio.wav',
-                mime: mimeType
-            }
-            setPreviews((prevPreviews) => [...prevPreviews, upload])
-        }
-    }
 
     const handleDrag = (e) => {
         if (isChatFlowAvailableForUploads) {
@@ -277,10 +214,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         setPreviews(previews.filter((item) => item !== itemToDelete))
     }
 
-    const handleUploadClick = () => {
-        // 👇️ open file input box on click of another element
-        fileUploadRef.current.click()
-    }
 
     const clearPreviews = () => {
         // Revoke the data uris to avoid memory leaks
@@ -288,29 +221,10 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         setPreviews([])
     }
 
-    const onMicrophonePressed = () => {
-        setIsRecording(true)
-        startAudioRecording(setIsRecording, setRecordingNotSupported)
-    }
-
-    const onRecordingCancelled = () => {
-        if (!recordingNotSupported) cancelAudioRecording()
-        setIsRecording(false)
-        setRecordingNotSupported(false)
-    }
-
-    const onRecordingStopped = async () => {
-        setIsLoadingRecording(true)
-        stopAudioRecording(addRecordingToPreviews)
-    }
 
     const onSourceDialogClick = (data, title) => {
         setSourceDialogProps({ data, title })
         setSourceDialogOpen(true)
-    }
-
-    const onURLClick = (data) => {
-        window.open(data, '_blank')
     }
 
     const scrollToBottom = () => {
@@ -396,7 +310,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         try {
             const params = {
                 question: input,
-                history: messages.filter((msg) => msg.message !== 'Hi there! How can I help?'),
+                history: messages.filter((msg) => msg.message !== 'Hi <User>! How can I help?'),
                 chatId
             }
             if (urls && urls.length > 0) params.uploads = urls
@@ -538,14 +452,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getIsChatflowStreamingApi.data])
 
-    // Get chatflow uploads capability
-    useEffect(() => {
-        if (getAllowChatFlowUploads.data) {
-            setIsChatFlowAvailableForUploads(getAllowChatFlowUploads.data?.isImageUploadAllowed ?? false)
-            setIsChatFlowAvailableForSpeech(getAllowChatFlowUploads.data?.isSpeechToTextEnabled ?? false)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getAllowChatFlowUploads.data])
 
     useEffect(() => {
         if (getChatflowConfig.data) {
@@ -593,8 +499,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
             // Scroll to bottom
             scrollToBottom()
 
-            setIsRecording(false)
-
             // SocketIO
             socket = socketIOClient(baseURL)
 
@@ -618,7 +522,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
             setLoading(false)
             setMessages([
                 {
-                    message: 'Hi there! How can I help?',
+                    message: 'Hi <User>! How can I help?',
                     type: 'apiMessage'
                 }
             ])
@@ -631,16 +535,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, chatflowid])
 
-    useEffect(() => {
-        // wait for audio recording to load and then send
-        const containsAudio = previews.filter((item) => item.type === 'audio').length > 0
-        if (previews.length >= 1 && containsAudio) {
-            setIsRecording(false)
-            setRecordingNotSupported(false)
-            handlePromptClick('')
-        }
-        // eslint-disable-next-line
-    }, [previews])
 
     const copyMessageToClipboard = async (text) => {
         try {
@@ -730,19 +624,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                     onDrop={handleDrop}
                 />
             )}
-            {isDragActive && getAllowChatFlowUploads.data?.isImageUploadAllowed && (
-                <Box className='drop-overlay'>
-                    <Typography variant='h2'>Drop here to upload</Typography>
-                    {getAllowChatFlowUploads.data.imgUploadSizeAndTypes.map((allowed) => {
-                        return (
-                            <>
-                                <Typography variant='subtitle1'>{allowed.fileTypes?.join(', ')}</Typography>
-                                <Typography variant='subtitle1'>Max Allowed Size: {allowed.maxUploadSize} MB</Typography>
-                            </>
-                        )
-                    })}
-                </Box>
-            )}
             <div ref={ps} className={`${isDialog ? 'cloud-dialog' : 'cloud'}`}>
                 <div id='messagelist' className={'messagelist'}>
                     {messages &&
@@ -787,50 +668,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                                                             icon={<IconTool size={15} />}
                                                             onClick={() => onSourceDialogClick(tool, 'Used Tools')}
                                                         />
-                                                    )
-                                                })}
-                                            </div>
-                                        )}
-                                        {message.fileUploads && message.fileUploads.length > 0 && (
-                                            <div
-                                                style={{
-                                                    display: 'flex',
-                                                    flexWrap: 'wrap',
-                                                    flexDirection: 'column',
-                                                    width: '100%',
-                                                    gap: '8px'
-                                                }}
-                                            >
-                                                {message.fileUploads.map((item, index) => {
-                                                    return (
-                                                        <>
-                                                            {item.mime.startsWith('image/') ? (
-                                                                <Card
-                                                                    key={index}
-                                                                    sx={{
-                                                                        p: 0,
-                                                                        m: 0,
-                                                                        maxWidth: 128,
-                                                                        marginRight: '10px',
-                                                                        flex: '0 0 auto'
-                                                                    }}
-                                                                >
-                                                                    <CardMedia
-                                                                        component='img'
-                                                                        image={item.data}
-                                                                        sx={{ height: 64 }}
-                                                                        alt={'preview'}
-                                                                        style={messageImageStyle}
-                                                                    />
-                                                                </Card>
-                                                            ) : (
-                                                                // eslint-disable-next-line jsx-a11y/media-has-caption
-                                                                <audio controls='controls'>
-                                                                    Your browser does not support the &lt;audio&gt; tag.
-                                                                    <source src={item.data} type={item.mime} />
-                                                                </audio>
-                                                            )}
-                                                        </>
                                                     )
                                                 })}
                                             </div>
@@ -888,53 +725,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                                                 </Box>
                                             </>
                                         ) : null}
-                                        {message.fileAnnotations && (
-                                            <div style={{ display: 'block', flexDirection: 'row', width: '100%' }}>
-                                                {message.fileAnnotations.map((fileAnnotation, index) => {
-                                                    return (
-                                                        <Button
-                                                            sx={{ fontSize: '0.85rem', textTransform: 'none', mb: 1 }}
-                                                            key={index}
-                                                            variant='outlined'
-                                                            onClick={() => downloadFile(fileAnnotation)}
-                                                            endIcon={<IconDownload color={theme.palette.primary.main} />}
-                                                        >
-                                                            {fileAnnotation.fileName}
-                                                        </Button>
-                                                    )
-                                                })}
-                                            </div>
-                                        )}
-                                        {message.sourceDocuments && (
-                                            <div style={{ display: 'block', flexDirection: 'row', width: '100%' }}>
-                                                {removeDuplicateURL(message).map((source, index) => {
-                                                    const URL =
-                                                        source.metadata && source.metadata.source
-                                                            ? isValidURL(source.metadata.source)
-                                                            : undefined
-                                                    return (
-                                                        <Chip
-                                                            size='small'
-                                                            key={index}
-                                                            label={
-                                                                URL
-                                                                    ? URL.pathname.substring(0, 15) === '/'
-                                                                        ? URL.host
-                                                                        : `${URL.pathname.substring(0, 15)}...`
-                                                                    : `${source.pageContent.substring(0, 15)}...`
-                                                            }
-                                                            component='a'
-                                                            sx={{ mr: 1, mb: 1 }}
-                                                            variant='outlined'
-                                                            clickable
-                                                            onClick={() =>
-                                                                URL ? onURLClick(source.metadata.source) : onSourceDialogClick(source)
-                                                            }
-                                                        />
-                                                    )
-                                                })}
-                                            </div>
-                                        )}
                                     </div>
                                 </Box>
                             )
@@ -1001,63 +791,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                         ))}
                     </Box>
                 )}
-                {isRecording ? (
-                    <>
-                        {recordingNotSupported ? (
-                            <div className='overlay'>
-                                <div className='browser-not-supporting-audio-recording-box'>
-                                    <Typography variant='body1'>
-                                        To record audio, use modern browsers like Chrome or Firefox that support audio recording.
-                                    </Typography>
-                                    <Button
-                                        variant='contained'
-                                        color='error'
-                                        size='small'
-                                        type='button'
-                                        onClick={() => onRecordingCancelled()}
-                                    >
-                                        Okay
-                                    </Button>
-                                </div>
-                            </div>
-                        ) : (
-                            <Box
-                                sx={{
-                                    width: '100%',
-                                    height: '54px',
-                                    px: 2,
-                                    border: '1px solid',
-                                    borderRadius: 3,
-                                    backgroundColor: customization.isDarkMode ? '#32353b' : '#fafafa',
-                                    borderColor: 'rgba(0, 0, 0, 0.23)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between'
-                                }}
-                            >
-                                <div className='recording-elapsed-time'>
-                                    <span className='red-recording-dot'>
-                                        <IconCircleDot />
-                                    </span>
-                                    <Typography id='elapsed-time'>00:00</Typography>
-                                    {isLoadingRecording && <Typography ml={1.5}>Sending...</Typography>}
-                                </div>
-                                <div className='recording-control-buttons-container'>
-                                    <IconButton onClick={onRecordingCancelled} size='small'>
-                                        <IconX
-                                            color={loading || !chatflowid ? '#9e9e9e' : customization.isDarkMode ? 'white' : '#1e88e5'}
-                                        />
-                                    </IconButton>
-                                    <IconButton onClick={onRecordingStopped} size='small'>
-                                        <IconSend
-                                            color={loading || !chatflowid ? '#9e9e9e' : customization.isDarkMode ? 'white' : '#1e88e5'}
-                                        />
-                                    </IconButton>
-                                </div>
-                            </Box>
-                        )}
-                    </>
-                ) : (
                     <form style={{ width: '100%' }} onSubmit={handleSubmit}>
                         <OutlinedInput
                             inputRef={inputRef}
@@ -1068,7 +801,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                             onKeyDown={handleEnter}
                             id='userInput'
                             name='userInput'
-                            placeholder={loading ? 'Waiting for response...' : 'Type your questionnnn...'}
+                            placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
                             value={userInput}
                             onChange={onChange}
                             multiline={true}
@@ -1091,23 +824,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                             }
                             endAdornment={
                                 <>
-                                    {isChatFlowAvailableForSpeech && (
-                                        <InputAdornment position='end'>
-                                            <IconButton
-                                                onClick={() => onMicrophonePressed()}
-                                                type='button'
-                                                disabled={loading || !chatflowid}
-                                                edge='end'
-                                            >
-                                                <IconMicrophone
-                                                    className={'start-recording-button'}
-                                                    color={
-                                                        loading || !chatflowid ? '#9e9e9e' : customization.isDarkMode ? 'white' : '#1e88e5'
-                                                    }
-                                                />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )}
                                     <InputAdornment position='end' sx={{ padding: '15px' }}>
                                         <IconButton type='submit' disabled={loading || !chatflowid} edge='end'>
                                             {loading ? (
@@ -1127,11 +843,7 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                                 </>
                             }
                         />
-                        {isChatFlowAvailableForUploads && (
-                            <input style={{ display: 'none' }} multiple ref={fileUploadRef} type='file' onChange={handleFileChange} />
-                        )}
                     </form>
-                )}
             </div>
             <SourceDocDialog show={sourceDialogOpen} dialogProps={sourceDialogProps} onCancel={() => setSourceDialogOpen(false)} />
             <ChatFeedbackContentDialog

@@ -22,9 +22,15 @@ class UIInteraction_Documentation implements INode {
         this.baseClasses = [this.type]
         this.inputs = [
             {
-                label: '',
+                label: 'Test Case',
                 name: 'input',
                 type: 'AutomatedTestCaseNode',
+                optional: true
+            },
+            {
+                label: 'UI Interaction',
+                name: 'input',
+                type: 'UIInteractionNode',
                 optional: true
             },
             {
