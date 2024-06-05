@@ -25,7 +25,6 @@ import nodeLoadMethodRouter from './node-load-methods'
 import nodesRouter from './nodes'
 import openaiAssistantsRouter from './openai-assistants'
 import openaiAssistantsFileRouter from './openai-assistants-files'
-import openaiModelRouter from '../controllers/openai-model'
 import predictionRouter from './predictions'
 import promptListsRouter from './prompts-lists'
 import publicChatbotRouter from './public-chatbots'
@@ -37,6 +36,7 @@ import vectorRouter from './vectors'
 import verifyRouter from './verify'
 import versionRouter from './versions'
 import upsertHistoryRouter from './upsert-history'
+import openaiModelRouter from './openai-model'
 
 const router = express.Router()
 
