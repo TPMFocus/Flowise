@@ -1,5 +1,3 @@
-import axios from 'axios'
-import openaiModelService from '../services/openai-model'
 import { Request, response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { IncomingInput, IMessage, INodeData, IReactFlowObject, IReactFlowNode, IDepthQueue, chatType, IChatMessage } from '../Interface'
@@ -71,18 +69,16 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
         const memoryType = memoryNode?.data.label
         let sessionId = undefined
 
-            const teste = incomingInput.question; // Valeur de votre attribut
             
-            // Fonction pour envoyer les données à votre microservice Flask
 
-            /* const sendDataToFlask = async (data: string) => {
+             const startSession = async (data: string) => {
                 try {
                     const response = await fetch('http://127.0.0.1:5000/start-session', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ user_id: data }),
+                        body: JSON.stringify({ user_id: data, session_id: chatflowid}),
                     });
                     if (!response.ok) {
                         throw new Error('Erreur de réseau');
@@ -93,7 +89,9 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                 } catch (error) {
                     console.error('Erreur lors de l\'envoi des données:', error);
                 }
-        }; */
+        }; 
+
+        await startSession("user_id");
 
         const generateText = async (data: string) => {
             try {
@@ -102,7 +100,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ session_id: '0ab5c4e4-3b31-4c76-a51d-6aa44d266a05', prompt: data }),
+                    body: JSON.stringify({ session_id: chatflowid, prompt: data }),
                 });
                 if (!response.ok) {
                     throw new Error('Erreur de réseau');
@@ -114,11 +112,10 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                 console.error('Erreur lors de l\'envoi des données:', error);
             }
     };
-        // Appel de la fonction lors de la soumission du formulaire
-        console.log('Form submitted with input:', teste);
+        console.log('Form submitted with input:', incomingInput.question);
+        console.log('Chat ID:', chatflowid);
         
-        //const resultat = await sendDataToFlask(teste);
-        const resultat2 = await generateText(teste);
+        const resultat2 = await generateText(incomingInput.question);
 
         if (memoryNode) sessionId = getMemorySessionId(memoryNode, incomingInput, chatId, isInternal)
         
