@@ -1,3 +1,5 @@
+import axios from 'axios'
+import openaiModelService from '../services/openai-model'
 import { Request, response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { IncomingInput, IMessage, INodeData, IReactFlowObject, IReactFlowNode, IDepthQueue, chatType, IChatMessage } from '../Interface'
@@ -24,7 +26,10 @@ import { databaseEntities } from '.'
 import { v4 as uuidv4 } from 'uuid'
 import logger from './logger'
 import { utilAddChatMessage } from './addChatMesage'
-import OpenAI from "openai";
+
+
+import { setDefaultResultOrder } from "dns";
+setDefaultResultOrder("ipv4first");
 
 /**
  * Build Chatflow
@@ -65,41 +70,65 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
         const memoryNode = findMemoryNode(nodes, edges)
         const memoryType = memoryNode?.data.label
         let sessionId = undefined
-        if (memoryNode) sessionId = getMemorySessionId(memoryNode, incomingInput, chatId, isInternal)
 
+            const teste = incomingInput.question; // Valeur de votre attribut
             
-            const openai = new OpenAI({
-            apiKey: "sk-proj-ZTTjJorzUWUuI86AT1YaT3BlbkFJfZ5lENOagJn9UIaoOTTu",
-            });
+            // Fonction pour envoyer les données à votre microservice Flask
 
-            const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo-16k",
-            messages: [
-                {
-                    "role": "system",
-                    // responsible for extracting relevant information from user prompts and mapping it to a specific node structure in JSON format. Follow the guidelines below for creating the JSON nodes:\n\n1/ Node Definitions: Each node has specific attributes and follows a unique structure. Ensure all required fields are correctly populated.\n\n2/ Child Nodes: Certain nodes can have child nodes. Ensure correct parent-child relationships:\n-Test steps are child nodes of Manual Test Cases. They're used to provide more details to the manual tests.\n-UI interactions are child nodes of Automated Test Cases. They're used to provide more details to the automated tests.\n-Frontend and Backend Unit Test Nodes are child nodes of Unit Test Node.\n-Frontend and Backend Integration Nodes are child nodes of Integration Test Node.\n\n3/ General Workflow:\n-Test Strategy: The starting point.\n-Test Phases: Multiple phases can follow a test strategy.\n-Test Plans: Multiple plans can follow a test phase.\n-Test Suites: Multiple suites can follow a test plan.\n-Test Cases: (Unit, Integration, Performance, Security, Code Quality, Third Party) can follow a test suite.\n-Detailed Test Cases: (Manual, Automated, BDD) can follow test cases with optional detailed steps or UI interactions.\n\n4/ Output Format: Each node should be a separate JSON object. The next_node attribute contains references to subsequent nodes by their node_id.\n\n5/ Node Structure:\n{\n  \"node\": \"NodeType\",\n  \"node_id\": \"\",\n  \"data\": {\n    // Specific attributes for the node type\n  },\n  \"next_node\": []\n}\n\n6/ Node Types and Attributes:\n-TestStrategyNode:\n{\n  \"node\": \"TestStrategyNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"dataConsiderations\": \"\"\n  },\n  \"next_node\": []\n}\n-TestingPhaseNode:\n{\n  \"node\": \"TestingPhaseNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"startDate\": \"\",\n    \"endDate\": \"\",\n    \"estimation\": \"\"\n  },\n  \"next_node\": []\n}\n-TestPlanNode:\n{\n  \"node\": \"TestPlanNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"numberOfAssignedTesters\": \"\",\n    \"dateOfExecution\": \"\",\n    \"estimation\": \"\",\n    \"riskAssessment\": \"\",\n    \"dataRequirements\": \"\",\n    \"overallExecutionResults\": \"\"\n  },\n  \"next_node\": []\n}\n-TestSuiteNode:\n{\n  \"node\": \"TestSuiteNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"exitCriteria\": \"\"\n  },\n  \"next_node\": []\n}\n-ManualTestCaseNode:\n{\n  \"node\": \"ManualTestCaseNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"preconditions\": \"\",\n    \"postconditions\": \"\",\n    \"expectedResults\": \"\",\n    \"actualResults\": \"\",\n    \"testData\": \"\",\n    \"assignedTesters\": \"\"\n  },\n  \"next_node\": []\n}\n-TestStepNode:\n{\n  \"node\": \"TestStepNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"stepId\": \"\",\n    \"description\": \"\",\n    \"requiredInput\": \"\",\n    \"expectedOutput\": \"\"\n  },\n  \"next_node\": []\n}\n-AutomatedTestCaseNode:\n{\n  \"node\": \"AutomatedTestCaseNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"preconditions\": \"\",\n    \"postconditions\": \"\",\n    \"expectedResults\": \"\",\n    \"actualResults\": \"\",\n    \"scriptLocation\": \"\",\n    \"programmingLanguage\": \"\",\n    \"framework\": \"\",\n    \"maintenanceEffort\": \"\",\n    \"dependencies\": \"\"\n  },\n  \"next_node\": []\n}\n-UIInteractionNode:\n{\n  \"node\": \"UIInteractionNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"elementType\": \"\",\n    \"identifier\": \"\",\n    \"action\": \"\",\n    \"value\": \"\"\n  },\n  \"next_node\": []\n}\n-BDDTestCaseNode:\n{\n  \"node\": \"BDDTestCaseNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"background\": \"\",\n    \"scenario\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"gherkinSteps\": [\n      { \"keyword\": \"Given\", \"text\": \"\" },\n      { \"keyword\": \"When\", \"text\": \"\" },\n      { \"keyword\": \"Then\", \"text\": \"\" }\n    ]\n  },\n  \"next_node\": []\n}\n-UnitTestNode:\n{\n  \"node\": \"UnitTestNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"targetLayer\": \"Front-End\" / \"Back-End\"\n  },\n  \"next_node\": []\n}\n-FrontEndUnitTestNode:\n{\n  \"node\": \"FrontEndUnitTestNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"UITestFramework\": \"\",\n    \"UIElements\": \"\"\n  },\n  \"next_node\": []\n}\n-BackendUnitTestNode:\n{\n  \"node\": \"BackendUnitTestNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"UnitTestClass\": \"\",\n    \"Mocking\": \"\"\n  },\n  \"next_node\": []\n}\n-IntegrationTestNode:\n{\n  \"node\": \"IntegrationTestNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"targetLayer\": \"Front-End\" / \"Back-End\"\n  },\n  \"next_node\": []\n}\n-FrontendIntegrationNode:\n{\n  \"node\": \"FrontendIntegrationNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"IntegrationScope\": \"\",\n    \"FrontEndTechnology\": \"\"\n  },\n  \"next_node\": []\n}\n-BackendIntegrationNode:\n{\n  \"node\": \"BackendIntegrationNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"IntegrationScope\": \"\",\n    \"BackendTechnology\": \"\"\n  },\n  \"next_node\": []\n}\n-PerformanceTestNode:\n{\n  \"node\": \"PerformanceTestNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"metrics\": {\n      \"responseTime\": \"\",\n      \"throughput\": \"\",\n      \"resourceUtilization\": \"\"\n    },\n    \"tools\": \"\"\n  },\n  \"next_node\": []\n}\n-SecurityTestNode:\n{\n  \"node\": \"SecurityTestNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"tools\": \"\",\n    \"type\": \"Penetration Testing\" / \"Vulnerability Scanning\" / \"Other\"\n  },\n  \"next_node\": []\n}\n-CodeQualityChecksNode:\n{\n  \"node\": \"CodeQualityChecksNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"checks\": {\n      \"Code Coverage\": \"\",\n      \"Static Code Analysis\": \"\"\n    },\n    \"tools\": \"\"\n  },\n  \"next_node\": []\n}\n-ThirdPartyChecksNode:\n{\n  \"node\": \"ThirdPartyChecksNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"title\": \"\",\n    \"description\": \"\",\n    \"priority\": \"\",\n    \"tags\": \"\",\n    \"type\": \"\",\n    \"tools\": \"\"\n  },\n  \"next_node\": []\n}\n-TestEnvironmentNode:\n{\n  \"node\": \"TestEnvironmentNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"name\": \"\",\n    \"URL\": \"\",\n    \"database\": \"\",\n    \"credentials\": \"\",\n    \"tools\": \"\"\n  },\n  \"next_node\": []\n}\n-IntegrationNode:\n{\n  \"node\": \"IntegrationNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"JIRA_URL\": \"\",\n    \"projectKey\": \"\",\n    \"authentication\": \"\"\n  },\n  \"next_node\": []\n}\n-NoteNode:\n{\n  \"node\": \"NoteNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"content\": \"\"\n  },\n  \"next_node\": []\n}\n-ExecutionDetailsNode:\n{\n  \"node\": \"ExecutionDetailsNode\",\n  \"node_id\": \"\",\n  \"data\": {\n    \"dateOfExecution\": \"\",\n    \"estimation\": \"\",\n    \"realExecutionTime\": \"\",\n    \"passFailStatus\": \"\"\n  },\n  \"next_node\": []\n}\n\n7/ Node Relationships:\n-Ensure nodes are linked properly using the next_node attribute, containing the node_id of the subsequent node.\n-A test strategy can have multiple test phases, a test phase can have multiple test plans, and so on.\n\n8/ Partial Workflows: If the user's prompt is not detailed enough to create a fully detailed workflow, create the nodes based on the provided details.\n\nExample of a Partial Workflow:\n{\n  \"node\": \"TestStrategyNode\",\n  \"node_id\": \"1\",\n  \"data\": {\n    \"title\": \"Initial Strategy\",\n    \"description\": \"Defining the overall strategy\",\n    \"dataConsiderations\": \"Consider GDPR regulations\"\n  },\n  \"next_node\": [\"2\"]\n}\n{\n  \"node\": \"TestingPhaseNode\",\n  \"node_id\": \"2\",\n  \"data\": {\n    \"title\": \"Phase 1\",\n    \"description\": \"Initial testing phase\",\n    \"startDate\": \"2023-01-01\",\n    \"endDate\": \"2023-02-01\",\n    \"estimation\": \"1 month\"\n  },\n  \"next_node\": []\n}\n
-                    "content": "You are a QA engineer."
-                },
-                {
-                    "role": "user",
-                    "content": incomingInput.question
+            /* const sendDataToFlask = async (data: string) => {
+                try {
+                    const response = await fetch('http://127.0.0.1:5000/start-session', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ user_id: data }),
+                    });
+                    if (!response.ok) {
+                        throw new Error('Erreur de réseau');
+                    }
+                    const result = await response.json();
+                    console.log('Réponse du microservice lask:', result);
+                    return result.session_id;
+                } catch (error) {
+                    console.error('Erreur lors de l\'envoi des données:', error);
                 }
-            ],
-            temperature: 0.75,
-            max_tokens: 8192,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            });
+        }; */
 
+        const generateText = async (data: string) => {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/generate-text', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ session_id: '0ab5c4e4-3b31-4c76-a51d-6aa44d266a05', prompt: data }),
+                });
+                if (!response.ok) {
+                    throw new Error('Erreur de réseau');
+                }
+                const result = await response.json();
+                console.log('Réponse du microservice lask:', result);
+                return result.generated_text;
+            } catch (error) {
+                console.error('Erreur lors de l\'envoi des données:', error);
+            }
+    };
+        // Appel de la fonction lors de la soumission du formulaire
+        console.log('Form submitted with input:', teste);
+        
+        //const resultat = await sendDataToFlask(teste);
+        const resultat2 = await generateText(teste);
 
+        if (memoryNode) sessionId = getMemorySessionId(memoryNode, incomingInput, chatId, isInternal)
+        
         /*   Reuse the flow without having to rebuild (to avoid duplicated upsert, recomputation, reinitialization of memory) when all these conditions met:
          * - Node Data already exists in pool
          * - Still in sync (i.e the flow has not been modified since)
          * - Flow doesn't start with/contain nodes that depend on incomingInput.question
          * TODO: convert overrideConfig to hash when we no longer store base64 string but filepath
          ***/
-        
+
         const isFlowReusable = () => {
             return (
                 Object.prototype.hasOwnProperty.call(appServer.chatflowPool.activeChatflows, chatflowid) &&
@@ -151,15 +180,12 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                 
                 if (!isEndingNode) {
                     if (
-                        endingNodeData &&
-                        endingNodeData.category !== 'Main Nodes' &&
-                        endingNodeData.category !== 'Agents' &&
-                        endingNodeData.category !== 'Engine'
+                        1 == 1
                     ) {
                         return {
                             executionError: true,
                             status: 500,
-                            msg: response.choices[0].message.content
+                            msg: resultat2.toString()
                         }
                     }
 

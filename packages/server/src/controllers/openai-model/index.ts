@@ -1,60 +1,36 @@
-import { Request, Response } from 'express';
-import axios from 'axios';
+import { Request, Response, NextFunction } from 'express'
+import openaiModelService from '../../services/openai-model'
 
-const FLASK_API_BASE_URL = 'http://localhost:5000';
 
-const startSession = async (req: Request, res: Response) => {
-    const userId = req.body.user_id;
-
+/* const startSession = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await axios.post(`${FLASK_API_BASE_URL}/start-session`, { user_id: userId }, {
-            headers: { 'Content-Type': 'application/json' }
-        });
-        res.status(200).json(response.data);
+        const apiResponse = await openaiModelService.startSession(req, res)
+        return res.json(apiResponse)
     } catch (error) {
-        console.error('Error starting session:', error);
-        res.status(500).json({ error: 'Failed to start session' });
+        next(error)
     }
-};
+} */
 
-const generateText = async (req: Request, res: Response) => {
-    const { session_id, question } = req.body;
-
-    if (!session_id || !question) {
-        return res.status(400).json({ error: 'Session ID and question are required' });
-    }
-
+const generateText = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await axios.post(`${FLASK_API_BASE_URL}/generate-text`, { session_id, prompt: question }, {
-            headers: { 'Content-Type': 'application/json' }
-        });
-        res.status(200).json(response.data);
+        const apiResponse = await openaiModelService.generateText(req, res)
+        return res.json(apiResponse)
     } catch (error) {
-        console.error('Error generating text:', error);
-        res.status(500).json({ error: 'Failed to generate text' });
+        next(error)
     }
-};
+}
 
-const clearChat = async (req: Request, res: Response) => {
-    const { session_id } = req.body;
-
-    if (!session_id) {
-        return res.status(400).json({ error: 'Session ID is required' });
-    }
-
+const clearChat = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await axios.post(`${FLASK_API_BASE_URL}/clear-chat`, { session_id }, {
-            headers: { 'Content-Type': 'application/json' }
-        });
-        res.status(200).json(response.data);
+        const apiResponse = await openaiModelService.clearChat(req, res)
+        return res.json(apiResponse)
     } catch (error) {
-        console.error('Error clearing chat:', error);
-        res.status(500).json({ error: 'Failed to clear chat' });
+        next(error)
     }
-};
+}
 
 export default {
-    startSession,
+    //startSession,
     generateText,
     clearChat
 };
