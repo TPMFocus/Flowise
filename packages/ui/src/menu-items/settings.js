@@ -35,13 +35,6 @@ const settings = {
             icon: icons.IconMessage
         },
         {
-            id: 'viewUpsertHistory',
-            title: 'Upsert History',
-            type: 'item',
-            url: '',
-            icon: icons.IconDatabaseExport
-        },
-        {
             id: 'chatflowConfiguration',
             title: 'Configuration',
             type: 'item',

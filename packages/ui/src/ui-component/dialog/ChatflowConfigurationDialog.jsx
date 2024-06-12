@@ -11,28 +11,8 @@ import StarterPrompts from '@/ui-component/extended/StarterPrompts'
 
 const CHATFLOW_CONFIGURATION_TABS = [
     {
-        label: 'Rate Limiting',
-        id: 'rateLimiting'
-    },
-    {
-        label: 'Starter Prompts',
-        id: 'conversationStarters'
-    },
-    {
-        label: 'Speech to Text',
-        id: 'speechToText'
-    },
-    {
         label: 'Chat Feedback',
         id: 'chatFeedback'
-    },
-    {
-        label: 'Allowed Domains',
-        id: 'allowedDomains'
-    },
-    {
-        label: 'Analyse Chatflow',
-        id: 'analyseChatflow'
     }
 ]
 
