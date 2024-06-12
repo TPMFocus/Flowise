@@ -521,10 +521,6 @@ const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
                                     {
                                         label: 'UI',
                                         name: 'INTERNAL'
-                                    },
-                                    {
-                                        label: 'API/Embed',
-                                        name: 'EXTERNAL'
                                     }
                                 ]}
                                 onSelect={(newValue) => onChatTypeSelected(newValue)}
