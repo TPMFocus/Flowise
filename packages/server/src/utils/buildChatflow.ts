@@ -106,7 +106,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                 }
                 const result = await response.json();
                 console.log('Réponse du microservice flask:', result);
-                return result.generated_text;
+                return result;
             } catch (error) {
                 console.error('Erreur lors de l\'envoi des données:', error);
             }
@@ -151,7 +151,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
 
         const apiMessage: Omit<IChatMessage, 'id' | 'createdDate'> = {
             role: 'apiMessage',
-            content: generatedResponse.toString(),
+            content: generatedResponse.generated_text.toString(),
             chatflowid,
             chatType: chatType.INTERNAL,
             chatId,
@@ -160,7 +160,6 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
         }
             const chatMessage = await utilAddChatMessage(apiMessage)
 
-       
-        return generatedResponse.toString()
+        return generatedResponse.generated_text.toString()
     }
 }
