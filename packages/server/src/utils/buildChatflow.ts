@@ -1,8 +1,31 @@
 import { Request, response } from 'express'
-import { IncomingInput, IMessage } from '../Interface'
+import { IncomingInput, IMessage, IReactFlowObject, IChatMessage, chatType } from '../Interface'
 import { ChatFlow } from '../database/entities/ChatFlow'
 import { Server } from 'socket.io'
 import { getRunningExpressApp } from '../utils/getRunningExpressApp'
+
+import { StatusCodes } from 'http-status-codes'
+import { v4 as uuidv4 } from 'uuid'
+
+import {
+    mapMimeTypeToInputField,
+    isFlowValidForStream,
+    buildFlow,
+    getTelemetryFlowObj,
+    getAppVersion,
+    resolveVariables,
+    getSessionChatHistory,
+    findMemoryNode,
+    replaceInputsWithConfig,
+    getStartingNodes,
+    isStartNodeDependOnInput,
+    getMemorySessionId,
+    isSameOverrideConfig,
+    getEndingNodes,
+    constructGraphs
+} from '../utils'
+
+import { utilAddChatMessage } from './addChatMesage'
  
 import { setDefaultResultOrder } from "dns";
 setDefaultResultOrder("ipv4first");
@@ -20,8 +43,33 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
         let incomingInput: IncomingInput = req.body
         const chatflow = await appServer.AppDataSource.getRepository(ChatFlow).findOneBy({
             id: chatflowid
-        })            
- 
+        })
+        if (!chatflow) {
+            return {
+                executionError: true,
+                status: StatusCodes.NOT_FOUND,
+                msg: `Chatflow ${chatflowid} not found`
+            }
+        }
+
+        const chatId = incomingInput.chatId ?? incomingInput.overrideConfig?.sessionId ?? uuidv4()
+        const userMessageDateTime = new Date()
+        
+        /*** Get chatflows and prepare data  ***/
+        const flowData = chatflow.flowData
+        const parsedFlowData: IReactFlowObject = JSON.parse(flowData)
+        const nodes = parsedFlowData.nodes
+        const edges = parsedFlowData.edges
+
+        const memoryNode = findMemoryNode(nodes, edges)
+        const memoryType = memoryNode?.data.label
+        let sessionId = undefined
+        if (memoryNode) sessionId = getMemorySessionId(memoryNode, incomingInput, chatId, isInternal)
+
+        let chatHistory: IMessage[] = incomingInput.history ?? []
+        
+        
+
         const startSession = async (data: string) => {
             try {
                 const response = await fetch('http://127.0.0.1:5000/start-session', {
@@ -41,6 +89,8 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                 console.error('Erreur lors de l\'envoi des données:', error);
             }
         };
+
+        await startSession('12-06-2024')
  
         const generateText = async (data: string) => {
             try {
@@ -84,7 +134,32 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
 
        
         const generatedResponse = await generateText(incomingInput.question);
-        const clearChatHistory = await clearChat();
+
+        const userMessage: Omit<IChatMessage, 'id'> = {
+            role: 'userMessage',
+            content: incomingInput.question,
+            chatflowid,
+            chatType: chatType.INTERNAL,
+            chatId,
+            memoryType,
+            sessionId,
+            createdDate: userMessageDateTime,
+            fileUploads: undefined
+        }
+        await utilAddChatMessage(userMessage)
+
+
+        const apiMessage: Omit<IChatMessage, 'id' | 'createdDate'> = {
+            role: 'apiMessage',
+            content: generatedResponse.toString(),
+            chatflowid,
+            chatType: chatType.INTERNAL,
+            chatId,
+            memoryType,
+            sessionId
+        }
+            const chatMessage = await utilAddChatMessage(apiMessage)
+
        
         return generatedResponse.toString()
     }
