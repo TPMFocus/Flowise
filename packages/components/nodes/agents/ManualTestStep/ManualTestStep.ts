@@ -45,7 +45,8 @@ class ManualTestStep_Documentation implements INode {
                 type: 'string',
                 rows: 4,
                 description: 'Detailed instructions for the tester to follow.',
-                optional: true
+                optional: true,
+                additionalParams: true
             },
             {
                 label: 'Required Input',
