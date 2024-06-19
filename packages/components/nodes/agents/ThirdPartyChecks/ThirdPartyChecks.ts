@@ -1,6 +1,6 @@
 import { INode, INodeParams } from '../../../src/Interface'
 
-class ThridPartyChecks_Documentation implements INode {
+class ThirdPartyChecks_Documentation implements INode {
     label: string
     name: string
     version: number
@@ -15,7 +15,7 @@ class ThridPartyChecks_Documentation implements INode {
         this.label = 'Third Party Checks'
         this.name = 'ThridPartyChecksNode'
         this.version = 1.0
-        this.type = 'ThridPartyChecksNode'
+        this.type = 'ThirdPartyChecksNode'
         this.icon = 'thirdpartychecks.svg'
         this.category = 'Test Case Nodes'
         this.description = `Verification of integrations with external systems or services.`
@@ -77,5 +77,5 @@ class ThridPartyChecks_Documentation implements INode {
 }
 
 module.exports = {
-    nodeClass: ThridPartyChecks_Documentation
+    nodeClass: ThirdPartyChecks_Documentation
 }
