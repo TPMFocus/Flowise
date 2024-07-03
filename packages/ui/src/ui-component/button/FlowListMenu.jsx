@@ -335,7 +335,7 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
                     confirmButtonName: 'Rename',
                     cancelButtonName: 'Cancel'
                 }}
-                onCancel={() => setFlowDialogOpen(false)}
+                onCancel={() => setFlowDialogOpen(true)}
                 onConfirm={saveFlowRename}
             />
             <TagDialog

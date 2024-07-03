@@ -9,17 +9,7 @@ import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import axios from 'axios'
 
-import {
-    Box,
-    Card,
-    CardMedia,
-    Chip,
-    CircularProgress,
-    Divider,
-    IconButton,
-    InputAdornment,
-    OutlinedInput
-} from '@mui/material'
+import { Box, Card, CardMedia, Chip, CircularProgress, Divider, IconButton, InputAdornment, OutlinedInput } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { IconSend, IconPhotoPlus, IconTrash, IconTool } from '@tabler/icons'
 import robotPNG from '@/assets/images/robot.png'
@@ -38,13 +28,12 @@ import ThumbsUpButton from '@/ui-component/button/ThumbsUpButton'
 import ThumbsDownButton from '@/ui-component/button/ThumbsDownButton'
 import './ChatMessage.css'
 import './audio-recording.css'
-
+import handleSaveFlow from '../canvas/index'
 // api
 import chatmessageApi from '@/api/chatmessage'
 import chatflowsApi from '@/api/chatflows'
 import predictionApi from '@/api/prediction'
 import chatmessagefeedbackApi from '@/api/chatmessagefeedback'
-
 // Hooks
 import useApi from '@/hooks/useApi'
 
@@ -94,7 +83,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
     // drag & drop and file input
     const [isChatFlowAvailableForUploads, setIsChatFlowAvailableForUploads] = useState(false)
     const [isDragActive, setIsDragActive] = useState(false)
-
 
     const isFileAllowedForUpload = (file) => {
         const constraints = getAllowChatFlowUploads.data
@@ -193,8 +181,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         }
     }
 
-
-
     const handleDrag = (e) => {
         if (isChatFlowAvailableForUploads) {
             e.preventDefault()
@@ -214,13 +200,11 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         setPreviews(previews.filter((item) => item !== itemToDelete))
     }
 
-
     const clearPreviews = () => {
         // Revoke the data uris to avoid memory leaks
         previews.forEach((file) => URL.revokeObjectURL(file.preview))
         setPreviews([])
     }
-
 
     const onSourceDialogClick = (data, title) => {
         setSourceDialogProps({ data, title })
@@ -372,6 +356,8 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                     inputRef.current?.focus()
                     scrollToBottom()
                 }, 100)
+                window.location.reload()
+                handleSaveFlow()
             }
         } catch (error) {
             handleError(error.response.data.message)
@@ -451,7 +437,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getIsChatflowStreamingApi.data])
-
 
     useEffect(() => {
         if (getChatflowConfig.data) {
@@ -534,7 +519,6 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, chatflowid])
-
 
     const copyMessageToClipboard = async (text) => {
         try {
@@ -791,59 +775,52 @@ export const ChatMessage = ({ open, chatflowid, isDialog, previews, setPreviews 
                         ))}
                     </Box>
                 )}
-                    <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-                        <OutlinedInput
-                            inputRef={inputRef}
-                            // eslint-disable-next-line
-                            autoFocus
-                            sx={{ width: '100%' }}
-                            disabled={loading || !chatflowid}
-                            onKeyDown={handleEnter}
-                            id='userInput'
-                            name='userInput'
-                            placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
-                            value={userInput}
-                            onChange={onChange}
-                            multiline={true}
-                            maxRows={isDialog ? 7 : 2}
-                            startAdornment={
-                                isChatFlowAvailableForUploads && (
-                                    <InputAdornment position='start' sx={{ pl: 2 }}>
-                                        <IconButton
-                                            onClick={handleUploadClick}
-                                            type='button'
-                                            disabled={loading || !chatflowid}
-                                            edge='start'
-                                        >
-                                            <IconPhotoPlus
+                <form style={{ width: '100%' }} onSubmit={handleSubmit}>
+                    <OutlinedInput
+                        inputRef={inputRef}
+                        // eslint-disable-next-line
+                        autoFocus
+                        sx={{ width: '100%' }}
+                        disabled={loading || !chatflowid}
+                        onKeyDown={handleEnter}
+                        id='userInput'
+                        name='userInput'
+                        placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
+                        value={userInput}
+                        onChange={onChange}
+                        multiline={true}
+                        maxRows={isDialog ? 7 : 2}
+                        startAdornment={
+                            isChatFlowAvailableForUploads && (
+                                <InputAdornment position='start' sx={{ pl: 2 }}>
+                                    <IconButton onClick={handleUploadClick} type='button' disabled={loading || !chatflowid} edge='start'>
+                                        <IconPhotoPlus
+                                            color={loading || !chatflowid ? '#9e9e9e' : customization.isDarkMode ? 'white' : '#1e88e5'}
+                                        />
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }
+                        endAdornment={
+                            <>
+                                <InputAdornment position='end' sx={{ padding: '15px' }}>
+                                    <IconButton type='submit' disabled={loading || !chatflowid} edge='end'>
+                                        {loading ? (
+                                            <div>
+                                                <CircularProgress color='inherit' size={20} />
+                                            </div>
+                                        ) : (
+                                            // Send icon SVG in input field
+                                            <IconSend
                                                 color={loading || !chatflowid ? '#9e9e9e' : customization.isDarkMode ? 'white' : '#1e88e5'}
                                             />
-                                        </IconButton>
-                                    </InputAdornment>
-                                )
-                            }
-                            endAdornment={
-                                <>
-                                    <InputAdornment position='end' sx={{ padding: '15px' }}>
-                                        <IconButton type='submit' disabled={loading || !chatflowid} edge='end'>
-                                            {loading ? (
-                                                <div>
-                                                    <CircularProgress color='inherit' size={20} />
-                                                </div>
-                                            ) : (
-                                                // Send icon SVG in input field
-                                                <IconSend
-                                                    color={
-                                                        loading || !chatflowid ? '#9e9e9e' : customization.isDarkMode ? 'white' : '#1e88e5'
-                                                    }
-                                                />
-                                            )}
-                                        </IconButton>
-                                    </InputAdornment>
-                                </>
-                            }
-                        />
-                    </form>
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            </>
+                        }
+                    />
+                </form>
             </div>
             <SourceDocDialog show={sourceDialogOpen} dialogProps={sourceDialogProps} onCancel={() => setSourceDialogOpen(false)} />
             <ChatFeedbackContentDialog

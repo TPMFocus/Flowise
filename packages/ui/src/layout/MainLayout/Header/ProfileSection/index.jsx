@@ -139,14 +139,15 @@ const ProfileSection = ({ username, handleLogout }) => {
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     onClick={() => {
                                                         setOpen(false)
-                                                        setAboutDialogOpen(true)
+                                                        window.location.href = 'http://localhost:8000/'
                                                     }}
                                                 >
                                                     <ListItemIcon>
                                                         <IconInfoCircle stroke={1.5} size='1.3rem' />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant='body2'>About TPM Focus</Typography>} />
+                                                    <ListItemText primary={<Typography variant='body2'>Logout</Typography>} />
                                                 </ListItemButton>
+
                                                 {localStorage.getItem('username') && localStorage.getItem('password') && (
                                                     <ListItemButton
                                                         sx={{ borderRadius: `${customization.borderRadius}px` }}

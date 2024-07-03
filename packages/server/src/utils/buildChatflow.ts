@@ -1,4 +1,4 @@
-import { Request, response } from 'express'
+import { Request } from 'express'
 import { IncomingInput, IMessage, IReactFlowObject, IChatMessage, chatType } from '../Interface'
 import { ChatFlow } from '../database/entities/ChatFlow'
 import { Server } from 'socket.io'
@@ -7,29 +7,13 @@ import { getRunningExpressApp } from '../utils/getRunningExpressApp'
 import { StatusCodes } from 'http-status-codes'
 import { v4 as uuidv4 } from 'uuid'
 
-import {
-    mapMimeTypeToInputField,
-    isFlowValidForStream,
-    buildFlow,
-    getTelemetryFlowObj,
-    getAppVersion,
-    resolveVariables,
-    getSessionChatHistory,
-    findMemoryNode,
-    replaceInputsWithConfig,
-    getStartingNodes,
-    isStartNodeDependOnInput,
-    getMemorySessionId,
-    isSameOverrideConfig,
-    getEndingNodes,
-    constructGraphs
-} from '../utils'
+import { findMemoryNode, getMemorySessionId } from '../utils'
 
 import { utilAddChatMessage } from './addChatMesage'
- 
-import { setDefaultResultOrder } from "dns";
-setDefaultResultOrder("ipv4first");
- 
+
+import { setDefaultResultOrder } from 'dns'
+setDefaultResultOrder('ipv4first')
+
 /**
  * Build Chatflow
  * @param {Request} req
@@ -54,7 +38,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
 
         const chatId = incomingInput.chatId ?? incomingInput.overrideConfig?.sessionId ?? uuidv4()
         const userMessageDateTime = new Date()
-        
+
         /*** Get chatflows and prepare data  ***/
         const flowData = chatflow.flowData
         const parsedFlowData: IReactFlowObject = JSON.parse(flowData)
@@ -67,73 +51,70 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
         if (memoryNode) sessionId = getMemorySessionId(memoryNode, incomingInput, chatId, isInternal)
 
         let chatHistory: IMessage[] = incomingInput.history ?? []
-        
-        
 
         const startSession = async (data: string) => {
             try {
-                const response = await fetch('http://127.0.0.1:5000/start-session', {
+                const response = await fetch('http://127.0.0.1:5001/start-session', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ user_id: data, session_id: chatflowid }),
-                });
+                    body: JSON.stringify({ user_id: data, session_id: chatflowid })
+                })
                 if (!response.ok) {
-                    throw new Error('Erreur de réseau');
+                    throw new Error('Erreur de réseau')
                 }
-                const result = await response.json();
-                console.log('Réponse du microservice flask:', result);
-                return result.session_id;
+                const result = await response.json()
+                console.log('Réponse du microservice flask:', result)
+                return result.session_id
             } catch (error) {
-                console.error('Erreur lors de l\'envoi des données:', error);
+                console.error("Erreur lors de l'envoi des données:", error)
             }
-        };
+        }
 
         await startSession('12-06-2024')
- 
+
         const generateText = async (data: string) => {
             try {
-                const response = await fetch('http://127.0.0.1:5000/generate-text', {
+                const response = await fetch('http://127.0.0.1:5001/generate-text', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ session_id: chatflowid, prompt: data }),
-                });
+                    body: JSON.stringify({ session_id: chatflowid, prompt: data })
+                })
                 if (!response.ok) {
-                    throw new Error('Erreur de réseau');
+                    throw new Error('Erreur de réseau')
                 }
-                const result = await response.json();
-                console.log('Réponse du microservice flask:', result);
-                return result;
+                const result = await response.json()
+                console.log('Réponse du microservice flask:', result)
+                return result
             } catch (error) {
-                console.error('Erreur lors de l\'envoi des données:', error);
+                console.error("Erreur lors de l'envoi des données:", error)
             }
-        };
+        }
 
         const clearChat = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:5000/clear-chat', {
+                const response = await fetch('http://127.0.0.1:5001/clear-chat', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ session_id: chatflowid }),
-                });
+                    body: JSON.stringify({ session_id: chatflowid })
+                })
                 if (!response.ok) {
-                    throw new Error('Erreur de réseau');
+                    throw new Error('Erreur de réseau')
                 }
-                const result = await response.json();
-                console.log('Réponse du microservice flask:', result);
-                return result.generated_text;
+                const result = await response.json()
+                console.log('Réponse du microservice flask:', result)
+                return result.generated_text
             } catch (error) {
-                console.error('Erreur lors de l\'envoi des données:', error);
+                console.error("Erreur lors de l'envoi des données:", error)
             }
-        };
+        }
 
-       
-        const generatedResponse = await generateText(incomingInput.question);
+        const generatedResponse = await generateText(incomingInput.question)
 
         const userMessage: Omit<IChatMessage, 'id'> = {
             role: 'userMessage',
@@ -148,7 +129,6 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
         }
         await utilAddChatMessage(userMessage)
 
-
         const apiMessage: Omit<IChatMessage, 'id' | 'createdDate'> = {
             role: 'apiMessage',
             content: generatedResponse.generated_text.toString(),
@@ -158,7 +138,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
             memoryType,
             sessionId
         }
-            const chatMessage = await utilAddChatMessage(apiMessage)
+        const chatMessage = await utilAddChatMessage(apiMessage)
 
         return generatedResponse.generated_text.toString()
     }
