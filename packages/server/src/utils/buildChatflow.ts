@@ -160,7 +160,7 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
         }
             const chatMessage = await utilAddChatMessage(apiMessage)
 
-        appServer.chatflowPool.updateInSync(chatflow.id, true)
+        appServer.chatflowPool.updateInSync(chatflowid, false)
 
         return generatedResponse.generated_text.toString()
     }
