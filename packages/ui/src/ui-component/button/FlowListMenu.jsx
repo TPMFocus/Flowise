@@ -310,14 +310,6 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
                     <ThumbsUpDownOutlinedIcon />
                     Chat Feedback
                 </MenuItem>
-                <MenuItem onClick={handleAllowedDomains} disableRipple>
-                    <VpnLockOutlinedIcon />
-                    Allowed Domains
-                </MenuItem>
-                <MenuItem onClick={handleSpeechToText} disableRipple>
-                    <MicNoneOutlinedIcon />
-                    Speech To Text
-                </MenuItem>
                 <MenuItem onClick={handleFlowCategory} disableRipple>
                     <FileCategoryIcon />
                     Update Category
