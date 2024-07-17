@@ -31,7 +31,8 @@ class TestEnvironment_Documentation implements INode {
                 name: 'url',
                 type: 'string',
                 description: 'URL of the test environment.',
-                optional: true
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Database',

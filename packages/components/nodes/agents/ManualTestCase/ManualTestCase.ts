@@ -41,13 +41,15 @@ class ManualTestCase_Documentation implements INode {
                     {label: 'Medium', name: 'Medium'}, 
                     {label: 'Low', name: 'Low'}
                 ],
-                optional: true
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                optional: true
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Preconditions',

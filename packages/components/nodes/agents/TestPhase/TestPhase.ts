@@ -37,7 +37,8 @@ class TestPhase_Documentation implements INode {
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                optional: true
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Start Date',
