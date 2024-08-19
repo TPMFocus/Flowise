@@ -49,11 +49,11 @@ export default class Start extends Command {
     }
 
     async stopProcess() {
-        logger.info('Shutting down Flowise...')
+        logger.info('Shutting down TPM...')
         try {
             // Shut down the app after timeout if it ever stuck removing pools
             setTimeout(() => {
-                logger.info('Flowise was forced to shut down after 30 secs')
+                logger.info('TPM was forced to shut down after 30 secs')
                 process.exit(processExitCode)
             }, 30000)
 
@@ -61,7 +61,7 @@ export default class Start extends Command {
             const serverApp = Server.getInstance()
             if (serverApp) await serverApp.stopApp()
         } catch (error) {
-            logger.error('There was an error shutting down Flowise...', error)
+            logger.error('There was an error shutting down TPM...', error)
         }
         process.exit(processExitCode)
     }
@@ -136,11 +136,11 @@ export default class Start extends Command {
 
         await (async () => {
             try {
-                logger.info('Starting Flowise...')
+                logger.info('Starting TPM...')
                 await DataSource.init()
                 await Server.start()
             } catch (error) {
-                logger.error('There was an error starting Flowise...', error)
+                logger.error('There was an error starting TPM...', error)
                 processExitCode = EXIT_CODE.FAILED
                 // @ts-ignore
                 process.emit('SIGINT')
