@@ -83,10 +83,8 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                     throw new Error('Erreur de réseau');
                 }
                 const result = await response.json();
-                console.log('Réponse du microservice flask:', result);
                 return result.session_id;
             } catch (error) {
-                console.error('Erreur lors de l\'envoi des données:', error);
             }
         };
 
@@ -105,10 +103,8 @@ export const utilBuildChatflow = async (req: Request, socketIO?: Server, isInter
                     throw new Error('Erreur de réseau');
                 }
                 const result = await response.json();
-                console.log('Réponse du microservice flask:', result);
                 return result;
             } catch (error) {
-                console.error('Erreur lors de l\'envoi des données:', error);
             }
         };
 

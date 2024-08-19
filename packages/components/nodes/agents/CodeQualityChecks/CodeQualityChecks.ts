@@ -41,20 +41,23 @@ class CodeQualityChecks_Documentation implements INode {
                     {label: 'Medium', name: 'Medium'}, 
                     {label: 'Low', name: 'Low'}
                 ],
-                optional: true
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Description',
                 name: 'description',
                 type: 'string',
                 rows: 4,
-                optional: true
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Tags',
                 name: 'tags',
                 type: 'string',
-                optional: true
+                optional: true,
+                additionalParams : true
             },
             {
                 label: 'Checks',
